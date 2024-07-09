@@ -2,7 +2,7 @@ import './styles/global.css';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
-    return <></>;
+    return <>First PR</>;
 }
 
 export default App;
