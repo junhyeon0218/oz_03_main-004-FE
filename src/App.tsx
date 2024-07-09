@@ -6,6 +6,7 @@ function App() {
             third PR
             <p>seunghye</p>
             <p>sungmin</p>
+            <p>JH</p>
         </>
     );
 }
