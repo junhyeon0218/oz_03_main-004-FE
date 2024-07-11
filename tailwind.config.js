@@ -20,7 +20,7 @@ module.exports = {
       minHeight: rem0_800,
       spacing: rem0_800,
       colors: {
-        primary: '#112D4E',
+        primary: '#112D4E', 
         strong: '#421D06',
         blue: '#3366FE',
         gray: {
@@ -39,8 +39,8 @@ module.exports = {
         green: '#1BCC73', // 투두 체크, 경험치 바
       },
       boxShadow: {
-        'custom-light': '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
-        'custom-dark': '0px 0px 8px 0px rgba(0, 0, 0, 0.20)',
+        'custom-light': '0px 0px 4px 0px rgba(0, 0, 0, 0.10)', // 투두 등 메인 컴포넌트 안에 들어가는 작은 것들 그림자
+        'custom-dark': '0px 0px 8px 0px rgba(0, 0, 0, 0.20)', // 메인 컴포넌트의 그림자
       },
     },
   },
