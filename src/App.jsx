@@ -1,8 +1,7 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 import Header from './components/header';
-import './styles/global.css';
 import Landing from './pages/landing';
-import Signup from './pages/Signup';
+import Signup from './pages/signup';
 import Signin from './pages/signin';
 
 const Layout = () => {
