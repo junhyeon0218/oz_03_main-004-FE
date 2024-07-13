@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/header';
 import Landing from './pages/landing';
 import Signup from './pages/signup';
@@ -17,6 +17,7 @@ function App() {
     return (
         <Routes>
             <Route path='/' element={<Layout />}>
+                <Route index element={<Navigate to='/landing' />} />
                 <Route path='landing' element={<Landing />} />
             </Route>
             <Route path='/signup' element={<Signup />} />

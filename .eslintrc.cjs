@@ -14,6 +14,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier',
   ],
+  tabUse: false,
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: {
     ecmaVersion: 'latest',

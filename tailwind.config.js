@@ -2,7 +2,7 @@
 
 const rem0_10 = { ...Array.from(Array(11)).map((_, i) => `${i / 10}rem`) };
 const rem0_100 = { ...Array.from(Array(101)).map((_, i) => `${i / 10}rem`) };
-const rem0_1500 = { ...Array.from(Array(1501)).map((_, i) => `${i / 10}rem`) };
+const rem0_2000 = { ...Array.from(Array(2001)).map((_, i) => `${i / 10}rem`) };
 
 module.exports = {
   content: [
@@ -16,11 +16,11 @@ module.exports = {
       borderRadius: rem0_100,
       fontSize: rem0_100,
       lineHeight: rem0_100,
-      minWidth: rem0_1500,
-      minHeight: rem0_1500,
-      spacing: rem0_1500,
+      minWidth: rem0_2000,
+      minHeight: rem0_2000,
+      spacing: rem0_2000,
       colors: {
-        primary: '#112D4E', 
+        primary: '#8B4513', 
         strong: '#421D06',
         blue: '#3366FE',
         gray: {
@@ -38,9 +38,28 @@ module.exports = {
         red: '#F54025', // 투두 지우기, 계정 지우기
         green: '#1BCC73', // 투두 체크, 경험치 바
       },
+      screens: {
+        wide: { max: '1920px' },
+        tablet: { max: '1199px' },
+        mobile: { max: '767px' },
+      },
       boxShadow: {
         'custom-light': '0px 0px 4px 0px rgba(0, 0, 0, 0.10)', // 투두 등 메인 컴포넌트 안에 들어가는 작은 것들 그림자
         'custom-dark': '0px 0px 8px 0px rgba(0, 0, 0, 0.20)', // 메인 컴포넌트의 그림자
+      },
+      keyframes: {
+        wave: {
+          '0%': { marginLeft: '0' },
+          '100%': { marginLeft: '-1600px' },
+        },
+        swell: {
+          '0%, 100%': { transform: 'translate(0, -30px)' },
+          '50%': { transform: 'translate(0, 5px)' },
+        },
+      },
+      animation: {
+        wave: 'wave 7s linear infinite',
+        swell: 'swell 4s linear infinite',
       },
     },
   },
