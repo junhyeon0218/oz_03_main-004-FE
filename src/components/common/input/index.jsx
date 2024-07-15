@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import enableEyes from '../../../../public/password/eye1.svg';
+import disableEyes from '../../../../public/password/eye2.svg';
 
 //Error 메세지 내용 / 유효성 검사:정규표현식
 const ERROR_MSG = {
@@ -13,7 +15,7 @@ const ERROR_MSG = {
 };
 const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PASSWORD_REGEX = /^[A-Za-z0-9!@#]{8,}$/;
-const NICKNAME_REGEX = /^[A-Za-z]{4,}$/;
+const NICKNAME_REGEX = /^[A-Za-z]+[A-Za-z0-9]{3,}$/;
 const DATE_REGEX = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$/;
 
 const FormInput = ({
@@ -28,41 +30,45 @@ const FormInput = ({
     isFormValid,
     setIsFormValid,
     password,
+    chkPassword,
 }) => {
+    //input type 관리
+    const [inputType, setInputType] = useState(type);
+
     useEffect(() => {
-        validateInput();
-    }, [value]);
+        //초기값이 없을때는 유효성검사를 건너뛰기
+        if (value !== placeholder && value !== '') {
+            validateInput();
+        }
+    }, [value, chkPassword, password]);
 
     //유효성검사
-    //? switch 로 바꾸는게 깔끔할까?
     const validateInput = () => {
+        //사용자 입력값의 유효성 판단
         let isValid = true;
 
         if (type === 'email') {
             if (!EMAIL_REGEX.test(value)) {
                 setError(ERROR_MSG.emailPattern);
-                isValid = false;
+                isValid = false; // 유효하지 않으면 isValid를 false로 설정
             } else {
-                setError(''); // Clear error
+                setError(''); // 유효하면 에러 메시지 초기화
             }
         } else if (id === 'userPassword') {
             if (!PASSWORD_REGEX.test(value)) {
                 setError(ERROR_MSG.passwordPattern);
                 isValid = false;
             } else {
-                setError(''); // Clear error
+                setError('');
             }
         } else if (id === 'chkPassword') {
-            // console.log('++++');
-            // console.log(password);
-            // console.log(value);
             if (value !== password) {
                 setError(ERROR_MSG.matchPassword);
                 isValid = false;
             } else {
                 setError('');
             }
-        } else if (type === 'nickname') {
+        } else if (id === 'userNickname') {
             if (!NICKNAME_REGEX.test(value)) {
                 setError(ERROR_MSG.nickname);
             } else {
@@ -76,7 +82,7 @@ const FormInput = ({
                 const [month, day, year] = value.split('/').map(Number);
                 const birthDate = new Date(year, month - 1, day);
                 const today = new Date();
-                if (birthDate > today) {
+                if (birthDate >= today) {
                     setError(ERROR_MSG.futureDate);
                     isValid = false;
                 } else {
@@ -85,6 +91,7 @@ const FormInput = ({
             }
         }
 
+        // 폼 전체의 유효성을 설정
         setIsFormValid(isValid);
     };
 
@@ -92,12 +99,21 @@ const FormInput = ({
     const handleDateChange = (e) => {
         //input = 숫자아닌 문자제거
         let input = e.target.value.replace(/\D/g, '').slice(0, 8);
+        //입력된 숫자가 4자 이상인 경우, MM/DD/YYYY 형식으로 포맷
         if (input.length >= 4) {
             input = `${input.slice(0, 2)}/${input.slice(2, 4)}/${input.slice(4)}`;
-        } else if (input.length >= 2) {
+        }
+        // 입력된 숫자가 2자 이상인 경우, MM/DD 형식으로 포맷
+        else if (input.length >= 2) {
             input = `${input.slice(0, 2)}/${input.slice(2)}`;
         }
+        //변경된 값 부모 컴포넌트로 전달
         onChange({ ...e, target: { ...e.target, value: input } });
+    };
+
+    //password와 text를 전환해서 password 볼수있게 해줌
+    const togglePasswordVisibility = () => {
+        setInputType(inputType === 'password' ? 'text' : 'password');
     };
 
     //error가 있으면 input border 색상 red로 변경
@@ -108,23 +124,39 @@ const FormInput = ({
             <label htmlFor={id} className='mb-3 text-16 text-black'>
                 {label}
             </label>
-            <input
-                type={type}
-                id={id}
-                placeholder={placeholder}
-                required
-                autoComplete='off'
-                className={`inline-flex h-50 w-520 items-center justify-start gap-2.5 rounded-4 border ${inputStatus} bg-white px-16 px-4 py-15 focus:border-strong`}
-                onChange={(e) => {
-                    if (id === 'userBirth') {
-                        handleDateChange(e);
-                    } else {
-                        onChange(e);
-                    }
-                    validateInput();
-                }}
-                value={value}
-            />
+            <div className='relative h-full w-full'>
+                <input
+                    type={inputType}
+                    id={id}
+                    placeholder={placeholder}
+                    required
+                    autoComplete='off'
+                    className={`inline-flex h-50 w-520 items-center justify-start gap-2.5 rounded-4 border ${inputStatus} bg-white px-16 py-15 focus:border-strong`}
+                    onChange={(e) => {
+                        //id가 userBirth인경우 handleDateChange() 함수 실행
+                        if (id === 'userBirth') {
+                            handleDateChange(e);
+                        } else {
+                            onChange(e);
+                        }
+                        //입력 값이 변경될 때마다 유효성검사를 실행
+                        validateInput();
+                    }}
+                    value={value}
+                />
+                {type === 'password' && (
+                    <button
+                        type='button'
+                        className='absolute right-4 top-1/2 mr-16 h-24 w-24 -translate-y-1/2 transform'
+                        onClick={togglePasswordVisibility}
+                    >
+                        <img
+                            src={inputType === 'password' ? disableEyes : enableEyes}
+                            className='h-24 w-24 text-blue'
+                        />
+                    </button>
+                )}
+            </div>
             {error && <p className='mb-5 text-14 text-red'>{error}</p>}
         </div>
     );
