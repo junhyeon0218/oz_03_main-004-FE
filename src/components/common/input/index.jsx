@@ -12,6 +12,7 @@ const ERROR_MSG = {
     nickname: 'Please enter at least 4 characters using only English letters',
     futureDate: 'Birth date cannot be in the future',
     invalidDate: 'Invalid date format (MM/DD/YYYY)',
+    loginPassword: 'Please enter your Password',
 };
 const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PASSWORD_REGEX = /^[A-Za-z0-9!@#]{8,}$/;
@@ -89,6 +90,12 @@ const FormInput = ({
                     setError('');
                 }
             }
+        } else if (id === 'loginPassword') {
+            if (password === '') {
+                setError(ERROR_MSG.loginPassword);
+            } else {
+                setError('');
+            }
         }
 
         // 폼 전체의 유효성을 설정
@@ -120,18 +127,18 @@ const FormInput = ({
     const inputStatus = error ? 'border-red' : 'border-gray-db';
 
     return (
-        <div className='my-8 inline-flex h-auto w-520 flex-col items-start justify-start gap-2'>
-            <label htmlFor={id} className='mb-3 text-16 text-black'>
+        <div className='inline-flex flex-col items-start justify-start h-auto gap-2 my-8 w-520'>
+            <label htmlFor={id} className='mb-3 text-black text-16'>
                 {label}
             </label>
-            <div className='relative h-full w-full'>
+            <div className='relative w-full h-full'>
                 <input
                     type={inputType}
                     id={id}
                     placeholder={placeholder}
                     required
                     autoComplete='off'
-                    className={`inline-flex h-50 w-520 items-center justify-start gap-2.5 rounded-4 border ${inputStatus} bg-white px-16 py-15 focus:border-strong`}
+                    className={`flex-cols inline-flex h-50 w-520 items-center justify-start gap-2.5 rounded-4 border ${inputStatus} bg-white px-16 py-15 focus:border-strong`}
                     onChange={(e) => {
                         //id가 userBirth인경우 handleDateChange() 함수 실행
                         if (id === 'userBirth') {
@@ -147,12 +154,12 @@ const FormInput = ({
                 {type === 'password' && (
                     <button
                         type='button'
-                        className='absolute right-4 top-1/2 mr-16 h-24 w-24 -translate-y-1/2 transform'
+                        className='absolute justify-center w-24 h-24 mr-16 transform right-4 pt-14'
                         onClick={togglePasswordVisibility}
                     >
                         <img
                             src={inputType === 'password' ? disableEyes : enableEyes}
-                            className='h-24 w-24 text-blue'
+                            className='w-24 h-24 text-blue'
                         />
                     </button>
                 )}
