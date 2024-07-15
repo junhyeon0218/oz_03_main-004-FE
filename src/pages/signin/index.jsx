@@ -35,7 +35,7 @@ const Signin = () => {
             .then((response) => {
                 const { accessToken, refreshToken } = response.data;
                 localStorage.setItem('accessToken', accessToken);
-                Cookies.set('refreshToken', refreshToken, { expires: 7 }); // 7일 동안 쿠키 유효
+                Cookies.set('refreshToken', refreshToken, { expires: 7 }); // 7일 동안 쿠키 유효 후에 변경예정
                 setError({ email: '', password: '', general: '' });
                 navigate('/home'); // 로그인 성공 후 홈으로 이동
             })
