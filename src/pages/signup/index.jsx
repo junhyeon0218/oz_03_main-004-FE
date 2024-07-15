@@ -53,15 +53,19 @@ const Signup = () => {
     return (
         <>
             <div className='m-auto flex h-[100vh] flex-col items-center justify-center'>
-                <div
-                    className='h-48 cursor-pointer text-48 font-bold text-strong'
-                    onClick={() => {
-                        navigate('/');
-                    }}
-                >
-                    GitPotato
+                <div className='flex h-48 items-center justify-center'>
+                    <img src='../../../public/potato.svg' className='h-42 w-32' />
+                    <h1
+                        className='h-auto cursor-pointer text-48 font-bold text-strong'
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    >
+                        GitPotato
+                    </h1>
                 </div>
                 <p className='my-38 text-20 font-normal'>"Sign Up and Grow Your Potato!"</p>
+
                 <form className='flex flex-col justify-center'>
                     {step === 1 && (
                         <>
@@ -117,7 +121,7 @@ const Signup = () => {
                             <FormInput
                                 id='userNickname'
                                 label='Nickname'
-                                type='nickname'
+                                type='text'
                                 placeholder='Please Enter Your Nickname'
                                 error={error.nickname}
                                 setError={(errorMsg) => setError({ ...error, nickname: errorMsg })}
