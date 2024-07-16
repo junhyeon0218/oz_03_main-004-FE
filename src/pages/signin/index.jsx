@@ -45,12 +45,12 @@ const Signin = () => {
     };
 
     return (
-        <div className='flex flex-col items-center justify-center h-screen m-auto'>
+        <div className='m-auto flex h-screen flex-col items-center justify-center'>
             {/* 제목과 설명 */}
-            <div className='flex items-center justify-center h-48'>
-                <img src='../../../public/potato.svg' className='w-32 h-42' />
+            <div className='flex h-48 items-center justify-center'>
+                <img src='../../../public/potato.svg' className='h-42 w-32' />
                 <h1
-                    className='h-auto mr-6 font-bold cursor-pointer text-48 text-strong'
+                    className='ml-6 h-auto cursor-pointer text-48 font-bold text-strong'
                     onClick={() => {
                         navigate('/');
                     }}
@@ -58,7 +58,7 @@ const Signin = () => {
                     GitPotato
                 </h1>
             </div>
-            <p className='h-24 font-normal my-36 text-20'>"Sign Up and Grow Your Potato!"</p>
+            <p className='my-36 h-24 text-20 font-normal'>"Sign Up and Grow Your Potato!"</p>
             {/* 로그인 폼 */}
             <form className='flex flex-col justify-center' onSubmit={handleLogin}>
                 {/* 이메일 입력 필드 */}
@@ -88,7 +88,7 @@ const Signin = () => {
                     setIsFormValid={setIsFormValid}
                 />
                 {/* 로그인 버튼 */}
-                <button className='justify-center w-full mt-4 text-white rounded h-50 bg-gray-db' type='submit'>
+                <button className='mt-4 h-50 w-full justify-center rounded bg-gray-db text-white' type='submit'>
                     Sign In
                 </button>
             </form>
@@ -98,11 +98,11 @@ const Signin = () => {
             <div className='my-24 text-center'>
                 <p className='mb-6'>
                     Not a member? &nbsp;
-                    <a href='/signup' className='underline text-blue hover:text-blue'>
+                    <a href='/signup' className='text-blue underline hover:text-blue'>
                         Sign up
                     </a>
                 </p>
-                <p className='mt-24 mb-13'>Sign in with GitHub</p>
+                <p className='mb-13 mt-24'>Sign in with GitHub</p>
                 <a href='https://github.com/login'>
                     <img
                         src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'

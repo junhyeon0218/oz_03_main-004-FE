@@ -56,7 +56,7 @@ const Signup = () => {
                 <div className='flex h-48 items-center justify-center'>
                     <img src='../../../public/potato.svg' className='h-42 w-32' />
                     <h1
-                        className='h-auto cursor-pointer text-48 font-bold text-strong'
+                        className='ml-6 h-auto cursor-pointer text-48 font-bold text-strong'
                         onClick={() => {
                             navigate('/');
                         }}
