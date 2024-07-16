@@ -12,7 +12,7 @@ const ERROR_MSG = {
     nickname: 'Please enter at least 4 characters using only English letters',
     futureDate: 'Birth date cannot be in the future',
     invalidDate: 'Invalid date format (MM/DD/YYYY)',
-    loginPassword: 'Please enter your Correct Password',
+    loginPassword: 'Please enter your Password',
 };
 const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 const PASSWORD_REGEX = /^[A-Za-z0-9!@#]{8,}$/;
