@@ -14,12 +14,12 @@ const Signin = () => {
 
     useEffect(() => {
         // 자동 로그인 처리
-        const refreshToken = Cookies.get('refreshToken');
+        const refreshToken = Cookies.get('refreshToken'); //쿠키에서 리프레시 토큰 가져오기
         if (refreshToken) {
             axios
-                .post('/api/refresh-token', { token: refreshToken })
+                .post('/api/refresh-token', { token: refreshToken }) //리프레시 토큰으로 엑세스 토큰 갱신 요청
                 .then((response) => {
-                    localStorage.setItem('accessToken', response.data.accessToken);
+                    localStorage.setItem('accessToken', response.data.accessToken); //요청 성공시 새 엑세스 토큰 로컬스토리지 저장
                     navigate('/home'); // 자동 로그인 후 홈으로 이동
                 })
                 .catch((error) => {
@@ -31,12 +31,14 @@ const Signin = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         axios
+            //서버에 로그인 요청
             .post('/api/login', { email, password })
             .then((response) => {
+                //로그인 성공시 서버로부터 받은 엑세스 토큰 및 리프레시 토큰 추출
                 const { accessToken, refreshToken } = response.data;
-                localStorage.setItem('accessToken', accessToken);
-                Cookies.set('refreshToken', refreshToken, { expires: 7 }); // 7일 동안 쿠키 유효 후에 변경예정
-                setError({ email: '', password: '', general: '' });
+                localStorage.setItem('accessToken', accessToken); //엑세스 토큰을 로컬스토리지에 저장
+                Cookies.set('refreshToken', refreshToken, { expires: 7 }); //리프레시 토큰을 쿠키에 저장, 7일 동안 쿠키 유효, 기간은 후에 변경예정
+                setError({ email: '', password: '', general: '' }); //에러메세지 초기화
                 navigate('/home'); // 로그인 성공 후 홈으로 이동
             })
             .catch((error) => {
