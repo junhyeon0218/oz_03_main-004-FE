@@ -23,7 +23,7 @@ const Signin = () => {
                     navigate('/home'); // 자동 로그인 후 홈으로 이동
                 })
                 .catch((error) => {
-                    console.error('자동 로그인 실패:', error);
+                    console.error('자동 로그인 실패:', error); //에러 시 메세지 출력
                 });
         }
     }, [navigate]);
