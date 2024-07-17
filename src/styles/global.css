@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-        font-size: 62.5%;
+    * {
         box-sizing: border-box;
     }
+
     html {
         font-size: 62.5%;
-        box-sizing: border-box;
     }
 
     body {
@@ -22,7 +21,6 @@
     html,
     body {
         height: 100%;
-        box-sizing: border-box;
     }
 
     input {
@@ -67,47 +65,25 @@
         font-display: swap;
         src: url('../../public/fonts/Pretendard-Regular.woff') format('woff');
     }
-    font-family: Pretendard;
-    font-weight: 400;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-Regular.woff') format('woff');
-}
 
-@font-face {
-    font-family: Pretendard;
-    font-weight: 500;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-Medium.woff') format('woff');
-}
-@font-face {
-    font-family: Pretendard;
-    font-weight: 500;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-Medium.woff') format('woff');
-}
+    @font-face {
+        font-family: Pretendard;
+        font-weight: 500;
+        font-display: swap;
+        src: url('../../public/fonts/Pretendard-Medium.woff') format('woff');
+    }
 
-@font-face {
-    font-family: Pretendard;
-    font-weight: 600;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-SemiBold.woff') format('woff');
-}
-@font-face {
-    font-family: Pretendard;
-    font-weight: 600;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-SemiBold.woff') format('woff');
-}
+    @font-face {
+        font-family: Pretendard;
+        font-weight: 600;
+        font-display: swap;
+        src: url('../../public/fonts/Pretendard-SemiBold.woff') format('woff');
+    }
 
-@font-face {
-    font-family: Pretendard;
-    font-weight: 700;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-Bold.woff') format('woff');
-}
-@font-face {
-    font-family: Pretendard;
-    font-weight: 700;
-    font-display: swap;
-    src: url('../../public/fonts/Pretendard-Bold.woff') format('woff');
+    @font-face {
+        font-family: Pretendard;
+        font-weight: 700;
+        font-display: swap;
+        src: url('../../public/fonts/Pretendard-Bold.woff') format('woff');
+    }
 }
