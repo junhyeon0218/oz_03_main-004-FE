@@ -3,6 +3,7 @@ import Header from './components/header';
 import Landing from './pages/landing';
 import Signup from './pages/signup';
 import Signin from './pages/signin';
+import Setting from './pages/setting';
 
 const Layout = () => {
     return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/' element={<Layout />}>
                 <Route index element={<Navigate to='/landing' />} />
                 <Route path='landing' element={<Landing />} />
+                <Route path='setting' element={<Setting />} />
             </Route>
             <Route path='/signup' element={<Signup />} />
             <Route path='/signin' element={<Signin />} />
