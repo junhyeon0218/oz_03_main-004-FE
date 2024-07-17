@@ -9,8 +9,11 @@ const Header = () => {
     return (
         <div className='flex h-100 w-full items-center px-10 shadow-custom-dark'>
             <div className='mx-auto flex h-48 w-[calc(100%-500px)] justify-between wide:w-1400'>
-                <div>
-                    <h1 className='h-48 w-150 text-32 font-bold'>GitPotato</h1>
+                <div className='flex h-50 w-182 items-center'>
+                    <div className='h-31 w-25'>
+                        <img src='../../../public/potato.svg' className='h-auto w-full' alt='' />
+                    </div>
+                    <h1 className='ml-6 h-48 w-150 text-32 font-bold'>GitPotato</h1>
                 </div>
                 {user ? (
                     <div>프로필</div>
