@@ -98,7 +98,7 @@ const Signin = () => {
             <div className='my-24 text-center'>
                 <p className='mb-6'>
                     Not a member? &nbsp;
-                    <a href='/signup' className='text-blue underline hover:text-blue'>
+                    <a href='/signup' className='text-16 text-primary underline'>
                         Sign up
                     </a>
                 </p>

@@ -155,7 +155,7 @@ const Signup = () => {
                 </form>
                 <div className='mt-24 flex justify-center'>
                     <p className='mr-10 text-16'>Already Have an ID?</p>
-                    <a href='/signin' className='text-16 hover:text-blue hover:underline'>
+                    <a href='/signin' className='text-16 text-primary underline'>
                         Sign In
                     </a>
                 </div>
