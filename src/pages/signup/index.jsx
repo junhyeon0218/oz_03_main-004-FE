@@ -56,7 +56,7 @@ const Signup = () => {
                 <div className='flex h-48 items-center justify-center'>
                     <img src='../../../public/potato.svg' className='h-42 w-32' />
                     <h1
-                        className='h-auto cursor-pointer text-48 font-bold text-strong'
+                        className='ml-6 h-auto cursor-pointer text-48 font-bold text-strong'
                         onClick={() => {
                             navigate('/');
                         }}
@@ -155,7 +155,7 @@ const Signup = () => {
                 </form>
                 <div className='mt-24 flex justify-center'>
                     <p className='mr-10 text-16'>Already Have an ID?</p>
-                    <a href='/signin' className='text-16 hover:text-blue hover:underline'>
+                    <a href='/signin' className='text-16 text-primary underline'>
                         Sign In
                     </a>
                 </div>
