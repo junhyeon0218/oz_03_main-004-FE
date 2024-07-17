@@ -2,8 +2,8 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className='h-308 w-full px-10 pb-25 pt-35 shadow-custom-light'>
-            <div className='wide:w-1400 mx-auto flex h-full w-[calc(100%-500px)] flex-col justify-between'>
+        <div className='h-308 w-full px-10 pb-25 pt-35 shadow-custom-light tablet:mt-10'>
+            <div className='mx-auto flex h-full w-[calc(100%-500px)] flex-col justify-between wide:w-1400'>
                 <div className='flex'>
                     <div className='w-300'>
                         <p className='text-16 font-bold'>소셜</p>
