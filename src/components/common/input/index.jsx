@@ -32,6 +32,7 @@ const FormInput = ({
     setIsFormValid,
     password,
     chkPassword,
+    className, // input 가로길이 수정가능하게
 }) => {
     //input type 관리
     const [inputType, setInputType] = useState(type);
@@ -127,26 +128,26 @@ const FormInput = ({
     const inputStatus = error ? 'border-red' : 'border-gray-db';
 
     return (
-        <div className='inline-flex flex-col items-start justify-start h-auto gap-2 my-8 w-520'>
-            <label htmlFor={id} className='mb-3 text-black text-16'>
+        <div className='my-8 inline-flex h-auto w-auto flex-col items-start justify-start gap-2'>
+            <label htmlFor={id} className='mb-3 text-16 text-black'>
                 {label}
             </label>
-            <div className='relative w-full h-full'>
+            <div className='relative h-full w-full'>
                 <input
                     type={inputType}
                     id={id}
                     placeholder={placeholder}
                     required
                     autoComplete='off'
-                    className={`flex-cols inline-flex h-50 w-520 items-center justify-start gap-2.5 rounded-4 border ${inputStatus} bg-white px-16 py-15 focus:border-strong`}
+                    className={`inline-flex h-50 items-center justify-start gap-2.5 rounded-4 border ${inputStatus} bg-white px-16 py-15 focus:border-strong ${className}`}
                     onChange={(e) => {
-                        //id가 userBirth인경우 handleDateChange() 함수 실행
+                        // id가 userBirth인 경우 handleDateChange() 함수 실행
                         if (id === 'userBirth') {
                             handleDateChange(e);
                         } else {
                             onChange(e);
                         }
-                        //입력 값이 변경될 때마다 유효성검사를 실행
+                        // 입력 값이 변경될 때마다 유효성 검사를 실행
                         validateInput();
                     }}
                     value={value}
@@ -154,12 +155,12 @@ const FormInput = ({
                 {type === 'password' && (
                     <button
                         type='button'
-                        className='absolute justify-center w-24 h-24 mr-16 transform right-4 pt-14'
+                        className='absolute right-4 mr-16 h-24 w-24 transform justify-center pt-14'
                         onClick={togglePasswordVisibility}
                     >
                         <img
                             src={inputType === 'password' ? disableEyes : enableEyes}
-                            className='w-24 h-24 text-blue'
+                            className='h-24 w-24 text-blue'
                         />
                     </button>
                 )}
