@@ -22,32 +22,35 @@ const Calendar = () => {
     };
 
     const handleDateClick = (day) => {
-        console.log(day);
         if (day !== 0) {
-            setSelectedDate(day);
+            const formattedDate = format(
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), day),
+                'yyyy-MM-dd'
+            );
+            setSelectedDate(formattedDate);
         }
     };
 
     return (
-        <div className='flex flex-col h-full'>
-            <div className='flex justify-between w-full'>
-                <h1 className='font-bold text-20 leading-30'>Calendar</h1>
+        <div className='flex h-full flex-col'>
+            <div className='flex w-full justify-between'>
+                <h1 className='text-20 font-bold leading-30'>Calendar</h1>
                 <div className='flex'>
-                    <div className='flex items-center justify-center w-16'>
+                    <div className='flex w-16 items-center justify-center'>
                         <img src={left} alt='' onClick={handlePrevMonth} className='w-1/2 cursor-pointer' />
                     </div>
 
-                    <div className='flex items-baseline justify-center mx-20 w-100'>
-                        <p className='h-24 font-bold text-20'>{format(currentDate, 'MMM.')}</p>
+                    <div className='mx-20 flex w-100 items-baseline justify-center'>
+                        <p className='h-24 text-20 font-bold'>{format(currentDate, 'MMM.')}</p>
                         <p className='text-16'>{format(currentDate, 'yyyy')}</p>
                     </div>
-                    <div className='flex items-center justify-center w-16'>
+                    <div className='flex w-16 items-center justify-center'>
                         <img src={right} alt='' onClick={handleNextMonth} className='w-1/2 cursor-pointer' />
                     </div>
                 </div>
             </div>
 
-            <div className='flex w-full mt-30 border-b-1 border-strong'>
+            <div className='mt-30 flex w-full border-b-1 border-strong'>
                 {DAY_LIST.map((day, index) => (
                     <div key={index} className='flex w-[calc(100%/7)] items-center justify-center'>
                         <p className={index === 0 ? 'text-red' : index === 6 ? 'text-blue' : ''}>{day}</p>
@@ -55,11 +58,11 @@ const Calendar = () => {
                 ))}
             </div>
 
-            <div className='flex flex-col w-full mt-6 grow'>
+            <div className='mt-6 flex w-full grow flex-col'>
                 {weekCalendarList.map((week, weekIndex) => (
                     <div key={weekIndex} className='flex h-[calc(100%/6)] w-full'>
                         {week.map((day, dayIndex) => (
-                            <div key={dayIndex} className='flex items-center justify-center w-full'>
+                            <div key={dayIndex} className='flex w-full items-center justify-center'>
                                 <p
                                     className={`${dayIndex === 0 ? 'text-red' : dayIndex === 6 ? 'text-blue' : ''} flex h-48 w-48 cursor-pointer items-center justify-center rounded-full`}
                                     onClick={() => handleDateClick(day)}
