@@ -164,7 +164,7 @@ const Setting = () => {
                                     </label>
                                     <span
                                         onClick={handleClickNicknameInput}
-                                        className='inline-flex h-50 cursor-pointer items-center justify-start gap-2.5 rounded-4 border bg-white px-16 py-15'
+                                        className='inline-flex h-50 min-w-100 cursor-pointer items-center justify-start gap-2.5 rounded-4 border bg-white px-16 py-15'
                                     >
                                         {nickname}
                                     </span>
