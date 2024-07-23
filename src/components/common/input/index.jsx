@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import enableEyes from '../../../../public/password/eye1.svg';
-import disableEyes from '../../../../public/password/eye2.svg';
 
 //Error 메세지 내용 / 유효성 검사:정규표현식
 const ERROR_MSG = {

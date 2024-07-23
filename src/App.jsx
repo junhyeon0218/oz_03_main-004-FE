@@ -1,7 +1,6 @@
 import { Outlet, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/layout/header';
 import Landing from './pages/landing';
-import Signup from './pages/signup';
 import Signin from './pages/signin';
 import Home from './pages/home';
 import Setting from './pages/setting';
@@ -26,7 +25,6 @@ function App() {
                 <Route path='home/:id' element={<Home />} />
                 <Route path='setting/:id' element={<Setting />} />
             </Route>
-            <Route path='/signup' element={<Signup />} />
             <Route path='/signin' element={<Signin />} />
             <Route path='/profile' element={<Profile />} />
         </Routes>

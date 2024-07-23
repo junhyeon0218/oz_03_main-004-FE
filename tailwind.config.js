@@ -9,6 +9,7 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/lib/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -60,6 +61,10 @@ module.exports = {
       animation: {
         wave: 'wave 7s linear infinite',
         swell: 'swell 4s linear infinite',
+      },
+      aspectRatio: {
+        '6/5': '6 / 5',
+        '12/5': '12 / 5',
       },
     },
   },
