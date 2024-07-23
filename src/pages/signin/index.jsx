@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // navigate를 사용하기 위해 import
-import FormInput from '../../components/common/input/index';
+import iconGithub from '../../../public/iconGithub.svg';
+import potato from '../../../public/potato.svg';
 import axios from 'axios';
 import Cookies from 'js-cookie'; // 쿠키 관리를 위해 js-cookie 라이브러리 사용
 
@@ -47,72 +48,35 @@ const Signin = () => {
     };
 
     return (
-        <div className='m-auto flex h-screen flex-col items-center justify-center'>
-            {/* 제목과 설명 */}
-            <div className='flex h-48 items-center justify-center'>
-                <img src='../../../public/potato.svg' className='h-42 w-32' />
-                <h1
-                    className='ml-6 h-auto cursor-pointer text-48 font-bold text-strong'
-                    onClick={() => {
-                        navigate('/');
-                    }}
-                >
-                    GitPotato
-                </h1>
-            </div>
-            <p className='my-36 h-24 text-20 font-normal'>"Sign Up and Grow Your Potato!"</p>
-            {/* 로그인 폼 */}
-            <form className='flex flex-col justify-center' onSubmit={handleLogin}>
-                {/* 이메일 입력 필드 */}
-                <FormInput
-                    id='userEmail'
-                    label='Email'
-                    type='email'
-                    placeholder='Please Enter Your Email'
-                    error={error.email}
-                    setError={(errorMsg) => setError({ ...error, email: errorMsg })}
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    isFormValid={isFormValid}
-                    setIsFormValid={setIsFormValid}
-                />
-                {/* 비밀번호 입력 필드 */}
-                <FormInput
-                    id='loginPassword'
-                    label='Password'
-                    type='password'
-                    placeholder='Please Enter Your Password'
-                    error={error.password}
-                    setError={(errorMsg) => setError({ ...error, password: errorMsg })}
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    isFormValid={isFormValid}
-                    setIsFormValid={setIsFormValid}
-                />
-                {/* 로그인 버튼 */}
-                <button className='mt-4 h-50 w-full justify-center rounded bg-gray-db text-white' type='submit'>
-                    Sign In
+        <div className='relative m-auto flex min-h-screen flex-col items-center justify-center overflow-hidden'>
+            <div className='flex flex-col items-center justify-center'>
+                <div className='flex h-48 items-center justify-center'>
+                    <img src='../../../public/potato.svg' className='h-42 w-32' />
+                    <h1
+                        className='ml-6 h-auto cursor-pointer text-48 font-bold text-strong'
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    >
+                        GitPotato
+                    </h1>
+                </div>
+                <p className='my-36 h-24 text-20 font-normal'>"Continew and Grow Your Potato!"</p>
+                <button className='flex h-44 w-200 items-center justify-between rounded-4 bg-primary px-15 text-white'>
+                    Start with GitHub <img src={iconGithub} alt='' />
                 </button>
-            </form>
-            {/* 에러 메시지 */}
-            {error.general && <p className='mt-4 text-15 text-red'>{error.general}</p>}
-            {/* 추가 링크와 버튼 */}
-            <div className='my-24 text-center'>
-                <p className='mb-6'>
-                    Not a member? &nbsp;
-                    <a href='/signup' className='text-16 text-primary underline'>
-                        Sign up
-                    </a>
-                </p>
-                <p className='mb-13 mt-24'>Sign in with GitHub</p>
-                <a href='https://github.com/login'>
-                    <img
-                        src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
-                        alt='GitHub Logo'
-                        className='w-47.164 inline-block h-46'
-                    />
-                </a>
             </div>
+
+            <img
+                className='absolute bottom-[-200px] left-0 h-[807.53px] w-[650.28px] origin-top-left rotate-[26.15deg] opacity-20'
+                src={potato}
+                alt=''
+            />
+            <img
+                className='absolute right-[-200px] top-300 h-[807.53px] w-[650.28px] origin-top-left rotate-[-44.08deg] opacity-20'
+                src={potato}
+                alt=''
+            />
         </div>
     );
 };
