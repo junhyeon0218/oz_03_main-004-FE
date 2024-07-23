@@ -24,7 +24,7 @@ const Section1 = () => {
                         </p>
                         <button
                             className='mt-26 h-44 w-90 rounded-4 bg-primary font-bold text-white duration-200 hover:scale-105'
-                            onClick={() => navigate('/signup')}
+                            onClick={() => navigate('/signin')}
                         >
                             Get Start
                         </button>
