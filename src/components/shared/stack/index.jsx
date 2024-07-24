@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import StackList from '../../../lib/stackList/index';
+import StackList from '../../../lib/stack';
 
 const Stack = () => {
     const { id } = useParams();
