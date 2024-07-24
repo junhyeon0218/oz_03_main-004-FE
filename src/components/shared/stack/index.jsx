@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import StackList from '../../../lib/stackList/index';
 
 const Stack = () => {
     const { id } = useParams();
     const [isEdit, setIsEdit] = useState(false);
     const [stacks, setStacks] = useState([]);
     const [selectedStacks, setSelectedStacks] = useState([]);
+    const [searchKey, setSearchKey] = useState('');
+    const [filteredStacks, setFilteredStacks] = useState([]);
 
     useEffect(() => {
         const fetchStacks = async () => {
             try {
-                // API 호출위치
-                // const response = await fetch(`/api/stacks/${id}`);
-                // if (!response.ok) {
-                //     throw new Error('Network response was not ok');
-                // }
-                // const data = await response.json();
-
-                // 임시 데이터(나중에 삭제)
+                // 임시 데이터
                 const data = [
                     { id: 1, name: 'JavaScript', isSelected: true },
                     { id: 2, name: 'TypeScript', isSelected: false },
@@ -53,7 +47,6 @@ const Stack = () => {
                 ];
 
                 setStacks(data);
-                // 처음에는 모든 스택을 선택된 상태로 설정
                 setSelectedStacks(data.filter((stack) => stack.isSelected));
             } catch (error) {
                 console.error('Error fetching stacks:', error);
@@ -63,16 +56,18 @@ const Stack = () => {
         fetchStacks();
     }, [id]);
 
+    useEffect(() => {
+        setFilteredStacks(stacks.filter((stack) => stack.name.toLowerCase().includes(searchKey.toLowerCase())));
+    }, [searchKey, stacks]);
+
     const handleEdit = () => {
         if (isEdit) {
-            // save 버튼 클릭시: 선택된 스택만 남기기
             const newSelectedStacks = stacks.filter((stack) => stack.isSelected);
             setSelectedStacks(newSelectedStacks);
         }
         setIsEdit(!isEdit);
     };
 
-    // Edit상태일때 Stack 선택유무에 따라 Stack 업데이트
     const handleStackClick = (id) => {
         if (isEdit) {
             setStacks((prevStacks) =>
@@ -85,15 +80,73 @@ const Stack = () => {
         setIsEdit(true);
     };
 
+    const handleSearchChange = (e) => {
+        setSearchKey(e.target.value);
+    };
+
+    const handleEditWithReset = () => {
+        handleEdit();
+        if (isEdit) {
+            setSearchKey('');
+        }
+    };
+
+    const StackTag = ({ name, isSelected, isEdit, onClick }) => {
+        return (
+            <span
+                className={`mb-2 cursor-pointer rounded-8 px-10 py-3 text-16 text-white ${
+                    isEdit ? (isSelected ? 'bg-blue' : 'bg-gray-db') : 'bg-blue'
+                }`}
+                onClick={isEdit ? onClick : null}
+            >
+                {name}
+            </span>
+        );
+    };
+
     return (
         <div className='h-full w-full'>
             {selectedStacks.length > 0 || isEdit ? (
-                <StackList
-                    stacks={isEdit ? stacks : selectedStacks}
-                    isEdit={isEdit}
-                    handleEdit={handleEdit}
-                    handleStackClick={handleStackClick}
-                />
+                <>
+                    <div className='flex h-30 justify-between'>
+                        <h1 className='text-20 font-bold leading-30'>Skills & Stacks</h1>
+                        <button
+                            type='button'
+                            onClick={handleEditWithReset}
+                            className='flex h-30 w-81 items-center justify-center rounded-16 bg-white px-14 py-6 shadow-custom-light'
+                        >
+                            <img src='../../../../public/button/write.svg' alt='' />
+                            <span className='ml-6 h-18 whitespace-nowrap text-14 text-gray-98'>
+                                {isEdit ? 'save' : 'edit'}
+                            </span>
+                        </button>
+                    </div>
+                    {isEdit && (
+                        <div className='mb-20 mt-10 flex h-32 w-full items-center justify-between rounded-8 bg-gray-fa px-12 shadow-custom-dark'>
+                            <input
+                                type='text'
+                                placeholder='Search and find Skill & stack'
+                                className='mr-4 flex-grow bg-gray-fa text-14 text-black placeholder:text-gray-98'
+                                value={searchKey}
+                                onChange={handleSearchChange}
+                            />
+                            <img src='../../../public/button/search.svg' className='h-25 w-25 cursor-pointer' />
+                        </div>
+                    )}
+                    <div
+                        className={`scrollbar-hide ${!isEdit ? 'mt-30 max-h-[calc(100%-60px)]' : 'mt-0 max-h-[calc(100%-80px)]'} flex flex-wrap gap-4 overflow-y-auto`}
+                    >
+                        {(isEdit ? filteredStacks : filteredStacks.filter((stack) => stack.isSelected)).map((stack) => (
+                            <StackTag
+                                key={stack.id}
+                                name={stack.name}
+                                isSelected={stack.isSelected}
+                                isEdit={isEdit}
+                                onClick={() => handleStackClick(stack.id)}
+                            />
+                        ))}
+                    </div>
+                </>
             ) : (
                 <div className='flex h-full w-full flex-col items-center justify-center text-center'>
                     <h1 className='text-20 font-bold leading-30'>Choose your Skills & Stack</h1>

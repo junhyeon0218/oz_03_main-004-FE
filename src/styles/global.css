@@ -88,3 +88,24 @@
         src: url('../../public/fonts/Pretendard-Bold.woff') format('woff');
     }
 }
+
+/* Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+    @apply text-primary;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    @apply text-primary;
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+    @apply hidden;
+}
+
+.swiper-button-next {
+    @apply right-[30px];
+}
+.swiper-button-prev {
+    @apply left-[30px];
+}
