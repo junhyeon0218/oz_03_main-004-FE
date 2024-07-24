@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import StackTag from '../../../lib/stack/index';
+import StackList from '../../../lib/stackList/index';
 
 const Stack = () => {
     const { id } = useParams();
@@ -65,56 +65,46 @@ const Stack = () => {
 
     const handleEdit = () => {
         if (isEdit) {
-            // save 모드로 전환: 선택된 스택만 남기기
+            // save 버튼 클릭시: 선택된 스택만 남기기
             const newSelectedStacks = stacks.filter((stack) => stack.isSelected);
             setSelectedStacks(newSelectedStacks);
         }
         setIsEdit(!isEdit);
     };
 
-    //선택된 stack 상태 변경 업데이트
-    const toggleSelectStack = (stackId) => {
-        // 현재 스택의 ID가 선택한 스택의 ID와 일치하면 선택상태 변경
-        const updatedStacks = stacks.map((stack) =>
-            stack.id === stackId ? { ...stack, isSelected: !stack.isSelected } : stack
-        );
-        setStacks(updatedStacks);
+    // Edit상태일때 Stack 선택유무에 따라 Stack 업데이트
+    const handleStackClick = (id) => {
+        if (isEdit) {
+            setStacks((prevStacks) =>
+                prevStacks.map((stack) => (stack.id === id ? { ...stack, isSelected: !stack.isSelected } : stack))
+            );
+        }
+    };
+
+    const handleChooseClick = () => {
+        setIsEdit(true);
     };
 
     return (
         <div className='h-full w-full'>
-            <div className='mb-30 flex h-30 justify-between'>
-                <h1 className='text-20 font-bold leading-30'>Skills & Stacks</h1>
-                <button
-                    type='button'
-                    onClick={handleEdit}
-                    className='flex h-30 w-81 items-center justify-center rounded-16 bg-white px-14 py-6 shadow-custom-light'
-                >
-                    <img src='../../../../public/button/write.svg' alt='' />
-                    <span className='ml-6 h-18 text-14 text-gray-98'>{isEdit ? 'save' : 'edit'}</span>
-                </button>
-            </div>
-            <div className='flex max-h-[calc(100%-60px)] flex-wrap items-start justify-start gap-4 overflow-y-auto'>
-                {isEdit ? (
-                    stacks.map((stack) => (
-                        <StackTag
-                            key={stack.id}
-                            name={stack.name}
-                            isSelected={stack.isSelected}
-                            isEdit={isEdit}
-                            onClick={() => toggleSelectStack(stack.id)}
-                        />
-                    ))
-                ) : selectedStacks.length > 0 ? (
-                    selectedStacks.map((stack) => (
-                        <StackTag key={stack.id} name={stack.name} isSelected={stack.isSelected} isEdit={isEdit} />
-                    ))
-                ) : (
-                    <div className='h-full w-full text-center'>
-                        <p className='mt-70 text-center text-14 text-gray-98'>No selected Skills & Stacks</p>
-                    </div>
-                )}
-            </div>
+            {selectedStacks.length > 0 || isEdit ? (
+                <StackList
+                    stacks={isEdit ? stacks : selectedStacks}
+                    isEdit={isEdit}
+                    handleEdit={handleEdit}
+                    handleStackClick={handleStackClick}
+                />
+            ) : (
+                <div className='flex h-full w-full flex-col items-center justify-center text-center'>
+                    <h1 className='text-20 font-bold leading-30'>Choose your Skills & Stack</h1>
+                    <button
+                        className='mt-7 h-44 rounded-4 bg-primary p-10 text-16 font-bold text-white duration-200 hover:scale-105'
+                        onClick={handleChooseClick}
+                    >
+                        Choose
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
