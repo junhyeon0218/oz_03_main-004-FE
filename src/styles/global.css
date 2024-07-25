@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+    * {
+        box-sizing: border-box;
+    }
+
     html {
         font-size: 62.5%;
-        box-sizing: border-box;
     }
 
     body {
@@ -13,6 +16,12 @@
         font-family: 'Pretendard';
         font-weight: 400;
         margin: 0;
+        overflow-x: hidden;
+    }
+
+    html,
+    body {
+        min-height: 100%;
     }
 
     input {
@@ -38,32 +47,70 @@
         tab-size: 4;
         --red: #d6173a;
     }
+    :root {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        cursor: default;
+        line-height: 1.5;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        -moz-tab-size: 4;
+        tab-size: 4;
+        --red: #d6173a;
+    }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 400;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-Regular.woff') format('woff');
+        src: url('/fonts/Pretendard-Regular.woff') format('woff');
     }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 500;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-Medium.woff') format('woff');
+        src: url('/fonts/Pretendard-Medium.woff') format('woff');
     }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 600;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-SemiBold.woff') format('woff');
+        src: url('/fonts/Pretendard-SemiBold.woff') format('woff');
     }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 700;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-Bold.woff') format('woff');
+        src: url('/fonts/Pretendard-Bold.woff') format('woff');
     }
+}
+
+/* Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+    @apply absolute text-primary;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    @apply text-primary;
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+    @apply hidden;
+}
+
+.swiper-button-next {
+    @apply right-[0px];
+}
+.swiper-button-prev {
+    @apply left-[0px];
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: #8b4513;
 }
