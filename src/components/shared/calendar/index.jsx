@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'; // React와 필요한 hooks import
-import useCalendar from '../../../hooks/useCalendar'; // 커스텀 캘린더 hook
-import { subMonths, addMonths, format } from 'date-fns'; // 날짜 관련 유틸리티 함수
-import left from '../../../../public/button/left.svg'; // 왼쪽 화살표 이미지
-import right from '../../../../public/button/right.svg'; // 오른쪽 화살표 이미지
-import useDate from '../../../store/store'; // 날짜 상태 관리 store
-import { fetchCompletedCounts } from '../../../api/axios'; // API 함수 import
+import React, { useEffect, useState } from 'react';
+import useCalendar from '../../../hooks/useCalendar';
+import { subMonths, addMonths, format } from 'date-fns';
+import left from '/button/left.svg';
+import right from '/button/right.svg';
+import useDate from '../../../store/store';
+import { fetchCompletedCounts } from '../../../api/axios';
 
 const Calendar = () => {
-    // useCalendar hook을 사용하여 캘린더 관련 상태와 함수 가져오기
     const { weekCalendarList, currentDate, setCurrentDate } = useCalendar();
     // useDate store에서 선택된 날짜 상태와 setter 함수 가져오기
     const { selectedDate, setSelectedDate } = useDate((state) => state);
-    // // 완료된 할 일 개수를 저장할 state
+    // 완료된 할 일 개수를 저장할 state
     const [completedCounts, setCompletedCounts] = useState({});
 
     const fetchData = async () => {
@@ -45,10 +44,7 @@ const Calendar = () => {
     // 날짜 클릭 시 선택된 날짜 업데이트 함수
     const handleDateClick = (day) => {
         if (day !== 0) {
-            const formattedDate = format(
-                new Date(currentDate.getFullYear(), currentDate.getMonth(), day),
-                'yyyy-MM-dd'
-            );
+            const formattedDate = format(new Date(currentDate.getFullYear(), currentDate.getMonth(), day), 'MM-dd');
             setSelectedDate(formattedDate);
         }
     };
@@ -63,31 +59,31 @@ const Calendar = () => {
     };
 
     return (
-        <div className='flex h-full flex-col'>
-            <div className='flex w-full justify-between'>
-                <h1 className='text-20 font-bold leading-30'>Calendar</h1>
-                <div className='flex w-auto justify-between'>
+        <div className='flex flex-col h-full'>
+            <div className='flex justify-between w-full'>
+                <h1 className='font-bold text-20 leading-30'>Calendar</h1>
+                <div className='flex justify-between w-auto'>
                     <div
-                        className='flex min-w-40 grow cursor-pointer items-center justify-center'
+                        className='flex items-center justify-center cursor-pointer min-w-40 grow'
                         onClick={handlePrevMonth}
                     >
-                        <img src={left} alt='' className='w-8' />
+                        <img src={left} alt='' className='w-12' />
                     </div>
 
-                    <div className='flex w-100 items-baseline justify-center'>
-                        <p className='h-24 text-20 font-bold'>{format(currentDate, 'MMM.')}</p>
+                    <div className='flex items-baseline justify-center w-100'>
+                        <p className='h-24 font-bold text-20'>{format(currentDate, 'MMM.')}</p>
                         <p className='text-16'>{format(currentDate, 'yyyy')}</p>
                     </div>
                     <div
-                        className='flex min-w-40 grow cursor-pointer items-center justify-center'
+                        className='flex items-center justify-center cursor-pointer min-w-40 grow'
                         onClick={handleNextMonth}
                     >
-                        <img src={right} alt='' className='w-8' />
+                        <img src={right} alt='' className='w-12' />
                     </div>
                 </div>
             </div>
 
-            <div className='mt-30 flex w-full border-b-1 border-strong'>
+            <div className='flex w-full mt-30 border-b-1 border-strong'>
                 {DAY_LIST.map((day, index) => (
                     <div key={index} className='flex w-[calc(100%/7)] items-center justify-center'>
                         <p className={index === 0 ? 'text-red' : index === 6 ? 'text-blue' : ''}>{day}</p>
@@ -95,13 +91,13 @@ const Calendar = () => {
                 ))}
             </div>
 
-            <div className='mt-6 flex w-full grow flex-col'>
+            <div className='flex flex-col w-full mt-6 grow'>
                 {weekCalendarList.map((week, weekIndex) => (
                     <div key={weekIndex} className='flex h-[calc(100%/6)] w-full'>
                         {week.map((day, dayIndex) => (
                             <div
                                 key={dayIndex}
-                                className='flex w-full cursor-pointer items-center justify-center shadow-custom-light'
+                                className='flex items-center justify-center w-full cursor-pointer'
                                 onClick={() => handleDateClick(day)}
                             >
                                 <p

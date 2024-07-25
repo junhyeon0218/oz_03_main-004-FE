@@ -115,7 +115,7 @@ const Stack = () => {
                             onClick={handleEditWithReset}
                             className='flex h-30 w-81 items-center justify-center rounded-16 bg-white px-14 py-6 shadow-custom-light'
                         >
-                            <img src='../../../../public/button/write.svg' alt='' />
+                            <img src='/button/write.svg' alt='' />
                             <span className='ml-6 h-18 whitespace-nowrap text-14 text-gray-98'>
                                 {isEdit ? 'save' : 'edit'}
                             </span>
@@ -130,7 +130,7 @@ const Stack = () => {
                                 value={searchKey}
                                 onChange={handleSearchChange}
                             />
-                            <img src='../../../public/button/search.svg' className='h-25 w-25 cursor-pointer' />
+                            <img src='/button/search.svg' className='h-25 w-25 cursor-pointer' />
                         </div>
                     )}
                     <div
