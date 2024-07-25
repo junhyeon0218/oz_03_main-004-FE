@@ -40,7 +40,9 @@ module.exports = {
         green: '#1BCC73', // 투두 체크, 경험치 바
       },
       screens: {
+        hwide: {max:'2260px'},
         wide: { max: '1920px' },
+        middle: { max: '1420px' },
         tablet: { max: '1199px' },
         mobile: { max: '767px' },
       },
@@ -63,8 +65,9 @@ module.exports = {
         swell: 'swell 4s linear infinite',
       },
       aspectRatio: {
-        '6/5': '6 / 5',
         '12/5': '12 / 5',
+        '6/5': '6 / 5',
+        '2/1': '2 / 1',
       },
     },
   },
