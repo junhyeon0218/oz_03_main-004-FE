@@ -24,9 +24,6 @@ function Collection() {
         'potato.svg',
         'potato.svg',
         'basicpotato.svg',
-        'potato.svg',
-        'basicpotato.svg',
-        'potato.svg',
     ];
     // 서버에서 사진을 받아올 경우(추후에 코드를 사용할 예정)
     // useEffect(() => {
@@ -61,31 +58,27 @@ function Collection() {
         });
     };
 
-    const containerHeight = isExpanded
-        ? imageFiles.length > 7
-            ? 'h-auto min-h-550' // 이미지가 7개를 넘으면 최소 높이를 550px로 설정
-            : 'h-322'
-        : 'h-82';
+    const containerHeight = isExpanded ? 'max-h-full h-auto pb-20' : 'h-82';
 
     return (
-        <div className='flex items-start justify-center min-h-screen bg-gray-100'>
-            <div
-                className={`relative w-1395 rounded-4 border bg-white p-4 shadow-md transition-all ${containerHeight}`}
-            >
-                <div className='flex items-center h-90'>
-                    <div className='mt-24 ml-20 font-bold w-100-h-30 mb-43 text-20'>Collection</div>
-                    {!isExpanded && (
-                        <div className='mb-46 ml-80 mt-30 h-21 w-132 text-14 text-gray-98'>Choose your Potato</div>
-                    )}
-                </div>
-                <button onClick={toggleSize} className='absolute p-2 bg-transparent right-2 top-2 rounded-4'>
-                    {isExpanded ? (
-                        <img src='/collection/uparrow.svg' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
-                    ) : (
-                        <img src='/collection/downarrow.svg' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
-                    )}
-                </button>
-                <div className={`mx-auto grid gap-4 ${isExpanded ? 'grid-cols-7' : 'hidden'}`}>
+        <div
+            className={`relative flex w-full flex-col rounded-4 bg-white p-4 shadow-custom-dark transition-all ${containerHeight}`}
+        >
+            <div className='flex items-center h-90'>
+                <div className='mt-24 ml-20 font-bold w-100-h-30 mb-43 text-20'>Collection</div>
+                {!isExpanded && (
+                    <div className='mb-46 ml-80 mt-30 h-21 w-132 text-14 text-gray-98'>Choose your Potato</div>
+                )}
+            </div>
+            <button onClick={toggleSize} className='absolute p-2 bg-transparent right-2 top-2 rounded-4'>
+                {isExpanded ? (
+                    <img src='/collection/uparrow.svg' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
+                ) : (
+                    <img src='/collection/downarrow.svg' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
+                )}
+            </button>
+            <div className='overflow-y-scroll scrollbar-hide'>
+                <div className={`mx-auto grid h-auto gap-4 ${isExpanded ? 'grid-cols-7' : 'hidden'}`}>
                     {imageFiles.length > 0 ? (
                         getPotatoImages(imageFiles)
                     ) : (

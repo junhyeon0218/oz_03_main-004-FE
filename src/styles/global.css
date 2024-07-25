@@ -64,35 +64,35 @@
         font-family: Pretendard;
         font-weight: 400;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-Regular.woff') format('woff');
+        src: url('/fonts/Pretendard-Regular.woff') format('woff');
     }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 500;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-Medium.woff') format('woff');
+        src: url('/fonts/Pretendard-Medium.woff') format('woff');
     }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 600;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-SemiBold.woff') format('woff');
+        src: url('/fonts/Pretendard-SemiBold.woff') format('woff');
     }
 
     @font-face {
         font-family: Pretendard;
         font-weight: 700;
         font-display: swap;
-        src: url('../../public/fonts/Pretendard-Bold.woff') format('woff');
+        src: url('/fonts/Pretendard-Bold.woff') format('woff');
     }
 }
 
 /* Swiper */
 .swiper-button-next,
 .swiper-button-prev {
-    @apply text-primary;
+    @apply absolute text-primary;
 }
 .swiper-button-next::after,
 .swiper-button-prev::after {
@@ -104,8 +104,13 @@
 }
 
 .swiper-button-next {
-    @apply right-[30px];
+    @apply right-[0px];
 }
 .swiper-button-prev {
-    @apply left-[30px];
+    @apply left-[0px];
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: #8b4513;
 }

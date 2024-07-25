@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useDate from '../../../store/store';
-import checkBtn from '../../../../public/button/checkBtn.svg';
-import deleteBtn from '../../../../public/button/deleteBtn.svg';
+import checkBtn from '/button/checkBtn.svg';
+import deleteBtn from '/button/deleteBtn.svg';
 import axiosInstance, { fetchTodosForDate } from '../../../api/axios';
 
 // TodoInput 컴포넌트: 새로운 todo 항목을 입력하고 추가하거나 취소할 수 있는 입력 폼
@@ -17,7 +17,7 @@ const TodoInput = ({ onAdd, onCancel }) => {
     };
 
     return (
-        <div className='mx-auto my-10 flex min-h-50 w-[98%] items-center justify-between px-20 shadow-custom-light'>
+        <div className='z-30 mx-auto my-10 flex min-h-50 w-[98%] items-center justify-between px-20 shadow-custom-light'>
             <input
                 type='text'
                 value={inputValue}
@@ -46,7 +46,7 @@ const TodoItem = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
     };
 
     return (
-        <div className='mx-auto my-10 flex min-h-50 w-[98%] items-center justify-between px-20 shadow-custom-light'>
+        <div className='z-20 mx-auto my-10 flex min-h-50 w-[98%] items-center justify-between px-20 shadow-custom-light'>
             {isEditing ? (
                 <input type='text' value={editValue} onChange={(e) => setEditValue(e.target.value)} />
             ) : (
@@ -59,7 +59,7 @@ const TodoItem = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
             )}
             <div className='flex'>
                 {isEditing ? (
-                    <img src={checkBtn} alt='' onClick={handleUpdate} className='h-20 w-20' />
+                    <img src={checkBtn} alt='' onClick={handleUpdate} className='w-20 h-20' />
                 ) : (
                     <img src='../../../../public/button/write.svg' onClick={() => setIsEditing(true)} alt='' />
                 )}
@@ -184,34 +184,40 @@ const Todo = () => {
     const filteredTodos = todos.filter((todo) => todo.date === selectedDate);
 
     return (
-        <div className='flex h-full flex-col'>
+        <div className='flex flex-col h-full'>
             <div className='flex justify-between'>
-                <h1 className='text-20 font-bold leading-30'>Todo</h1>
+                <h1 className='font-bold text-20 leading-30'>Todo</h1>
                 <p>{selectedDate}</p>
                 {user ? (
                     <button
                         onClick={() => setIsAdding(true)}
-                        className='flex h-30 w-80 items-center justify-center rounded-full shadow-custom-light'
+                        className='flex items-center justify-center rounded-full h-30 w-80 shadow-custom-light'
                     >
-                        <img src='../../../../public/button/write.svg' alt='' />
+                        <img src='/button/write.svg' alt='' />
                         <span className='ml-2 text-14 text-gray-98'>write</span>
                     </button>
                 ) : (
                     <div></div>
                 )}
             </div>
-            <div className='mt-20 flex h-auto flex-col overflow-y-auto'>
+            <div className='relative flex flex-col h-full mt-20 overflow-y-auto grow scrollbar-hide'>
                 {isAdding && <TodoInput onAdd={handleAddTodo} onCancel={() => setIsAdding(false)} />}
 
-                {filteredTodos.map((todo) => (
-                    <TodoItem
-                        key={todo.id}
-                        todo={todo}
-                        onUpdate={handleUpdateTodo}
-                        onDelete={handleDeleteTodo}
-                        onToggleComplete={handleToggleComplete}
-                    />
-                ))}
+                {filteredTodos.length > 0 ? (
+                    filteredTodos.map((todo) => (
+                        <TodoItem
+                            key={todo.id}
+                            todo={todo}
+                            onUpdate={handleUpdateTodo}
+                            onDelete={handleDeleteTodo}
+                            onToggleComplete={handleToggleComplete}
+                        />
+                    ))
+                ) : (
+                    <div className='absolute inset-0 z-10 flex items-center justify-center h-full text-center text-gray-98'>
+                        <p>Add Todo</p>
+                    </div>
+                )}
             </div>
         </div>
     );

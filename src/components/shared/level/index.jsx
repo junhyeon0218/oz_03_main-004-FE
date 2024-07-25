@@ -3,8 +3,30 @@ import axios from 'axios';
 
 // CircularProgressBar 컴포넌트 정의
 const CircularProgressBar = ({ level, currentXP, maxXP }) => {
-    const radius = 90; // 원형 반지름 설정
-    const stroke = 12; // 선 굵기 설정
+    const [radius, setRadius] = useState(90); // 원형 반지름 설정
+    const [stroke, setStroke] = useState(12); // 선 굵기 설정
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1920) {
+                setRadius(150);
+                setStroke(18);
+            } else {
+                setRadius(90);
+                setStroke(12);
+            }
+        };
+
+        // 초기 설정
+        handleResize();
+
+        // 리사이즈 이벤트 리스너 추가
+        window.addEventListener('resize', handleResize);
+
+        // 컴포넌트 언마운트 시 이벤트 리스너 제거
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const normalizedRadius = radius - stroke * 2; // 선 두께를 뺀 반지름 계산
     const circumference = normalizedRadius * 2 * Math.PI; // 원의 둘레 계산
     const progress = currentXP / maxXP; // 현재 경험치 비율 계산
@@ -12,16 +34,16 @@ const CircularProgressBar = ({ level, currentXP, maxXP }) => {
 
     return (
         <div
-            className='relative flex items-center justify-center h-auto'
+            className='relative flex h-auto items-center justify-center'
             style={{ width: radius * 2, height: radius * 2 }}
         >
             <svg
                 height={radius * 2}
                 width={radius * 2}
-                className='transform -rotate-90' // 원을 회전하여 12시 방향이 시작점이 되게 함
+                className='-rotate-90 transform' // 원을 회전하여 12시 방향이 시작점이 되게 함
             >
                 <circle //배경 원
-                    className='text-gray-bg' //배경 원 색상
+                    className='text-gray-bg drop-shadow' //배경 원 색상
                     stroke='currentColor' //현재 색상 이용해서 원 테두리 그리기
                     fill='transparent' //내부 투명하게
                     strokeWidth={stroke} //원 테두리 두께
@@ -40,8 +62,8 @@ const CircularProgressBar = ({ level, currentXP, maxXP }) => {
                     cy={radius}
                 />
             </svg>
-            <div className='absolute text-center transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2'>
-                <div className='font-bold whitespace-nowrap text-24'>Lv. {level}</div>
+            <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center'>
+                <div className='whitespace-nowrap text-24 font-bold'>Lv. {level}</div>
                 <div className='mt-2 text-12 text-gray-65'>
                     {currentXP} / {maxXP}
                 </div>
@@ -58,7 +80,7 @@ const Level = () => {
     const maxXP = 500; // 최대 경험치 설정
 
     return (
-        <div className='justify-center h-auto mt-10 Level'>
+        <div className='Level h-auto justify-center'>
             <CircularProgressBar level={level} currentXP={currentXP} maxXP={maxXP} />
         </div>
     );
