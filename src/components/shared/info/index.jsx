@@ -38,13 +38,13 @@ const Info = () => {
             autoplay={{ delay: 2500, disableOnInteraction: false }}
             loop={true}
             pagination={{ dynamicBullets: true }}
-            className='m-0 h-full w-450 rounded-4 shadow-custom-light hwide:w-250'
+            className='h-full w-300 wide:w-200 tablet:w-full'
         >
             {info.map((data, index) => (
                 <SwiperSlide key={index} className='bg-white'>
                     <div className='h-[calc(100%-30px)] w-full'>
                         {Object.entries(data).map(([key, value]) => (
-                            <div className='flex h-full flex-col items-center'>
+                            <div className='flex h-full flex-col items-center justify-center'>
                                 <p key={key} className='text-21 font-bold wide:text-16'>
                                     {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
                                 </p>
