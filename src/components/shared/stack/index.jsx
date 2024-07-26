@@ -9,6 +9,21 @@ const Stack = () => {
     const [searchKey, setSearchKey] = useState('');
     const [filteredStacks, setFilteredStacks] = useState([]);
 
+    const colors = [
+        'bg-[#AD5A10]',
+        'bg-[#F2C32D]',
+        'bg-[#228B22]',
+        'bg-[#CE9D00]',
+        'bg-[#FFD700]',
+        'bg-[#10A95C]',
+        'bg-[#3366FE]',
+        'bg-[#5B8FFF]',
+        'bg-[#FF9110]',
+        'bg-[#FFAB38]',
+        'bg-[#F54025]',
+        'bg-[#FE7E6B]',
+    ];
+
     useEffect(() => {
         const fetchStacks = async () => {
             try {
@@ -44,7 +59,10 @@ const Stack = () => {
                     { id: 28, name: 'Redux', isSelected: false },
                     { id: 29, name: 'MobX', isSelected: false },
                     { id: 30, name: 'Next.js', isSelected: true },
-                ];
+                ].map((stack) => ({
+                    ...stack,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                }));
 
                 setStacks(data);
                 setSelectedStacks(data.filter((stack) => stack.isSelected));
@@ -91,11 +109,11 @@ const Stack = () => {
         }
     };
 
-    const StackTag = ({ name, isSelected, isEdit, onClick }) => {
+    const StackTag = ({ name, isSelected, color, isEdit, onClick }) => {
         return (
             <span
                 className={`mb-2 cursor-pointer rounded-8 px-10 py-3 text-16 text-white ${
-                    isEdit ? (isSelected ? 'bg-blue' : 'bg-gray-db') : 'bg-blue'
+                    isSelected ? color : 'bg-gray-db'
                 }`}
                 onClick={isEdit ? onClick : null}
             >
@@ -122,10 +140,10 @@ const Stack = () => {
                         </button>
                     </div>
                     {isEdit && (
-                        <div className='mb-20 mt-10 flex h-32 w-full items-center justify-between rounded-8 bg-gray-fa px-12 shadow-custom-dark'>
+                        <div className='animate-slide-down mb-10 mt-15 flex h-32 w-full items-center justify-between rounded-8 bg-gray-fa px-12 shadow-custom-light'>
                             <input
                                 type='text'
-                                placeholder='Search and find Skill & stack'
+                                placeholder='Search and find Skill & Stack'
                                 className='mr-4 flex-grow bg-gray-fa text-14 text-black placeholder:text-gray-98'
                                 value={searchKey}
                                 onChange={handleSearchChange}
@@ -134,13 +152,14 @@ const Stack = () => {
                         </div>
                     )}
                     <div
-                        className={`scrollbar-hide ${!isEdit ? 'mt-30 max-h-[calc(100%-60px)]' : 'mt-0 max-h-[calc(100%-80px)]'} flex flex-wrap gap-4 overflow-y-auto`}
+                        className={`scrollbar-hide ${!isEdit ? 'mt-20 max-h-[calc(100%-45px)]' : 'mt-15 max-h-[calc(100%-90px)]'} flex flex-wrap gap-4 overflow-y-auto`}
                     >
                         {(isEdit ? filteredStacks : filteredStacks.filter((stack) => stack.isSelected)).map((stack) => (
                             <StackTag
                                 key={stack.id}
                                 name={stack.name}
                                 isSelected={stack.isSelected}
+                                color={stack.color}
                                 isEdit={isEdit}
                                 onClick={() => handleStackClick(stack.id)}
                             />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import FormInput from '../../components/common/input/index';
+import BaekjoonConnectModal from '../../components/modal/BaekjoonConnectModal';
 
 // Nickname 서버에서 가져오기
 //? 메모리에 1번만 로드되어서 성능 최적화에 괜찮다고 생각해서 Setting 컴포넌트 밖에 둠
@@ -27,6 +28,7 @@ const Setting = () => {
     // Github, Baekjoon 연동 (연동되지않았다=false)
     const [isBaekjoonConnected, setIsBaekjoonConnected] = useState(false);
     const [isEditing, setIsEditing] = useState(false); // 닉네임 편집 상태
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Nickname에 error 또는 빈 input 인지 확인
     const validateForm = () => {
@@ -63,12 +65,10 @@ const Setting = () => {
                 // setIsBaekjoonConnected(response.data.baekjoon);
 
                 // 서버통신 전 버튼작동 확인 용 임시 코드 (나중에 삭제하기)
-                const response = { data: { github: false, baekjoon: false } };
-                setIsGithubConnected(response.data.github);
+                const response = { data: { baekjoon: false } };
                 setIsBaekjoonConnected(response.data.baekjoon);
             } catch (error) {
                 console.error('Failed to fetch account connections', error);
-                setIsGithubConnected(false);
                 setIsBaekjoonConnected(false);
             }
         };
@@ -104,17 +104,16 @@ const Setting = () => {
         }
     };
 
-    // Github, Baekjoon 계정 연동 모달 띄우기 (oAuth)
+    // Baekjoon 계정 연동 모달 띄우기
     const handleConnect = (platform) => {
-        alert(`Connect ${platform} Account`);
-        // 여기에 연동 모달 띄우기 추가하기
-
-        // 서버통신전 버튼 작동 확인용 임시 코드 (나중에 삭제하기)
-        if (platform === 'Github') {
-            setIsGithubConnected(true);
-        } else if (platform === 'Baekjoon') {
-            setIsBaekjoonConnected(true);
+        if (platform === 'Baekjoon') {
+            setIsModalOpen(true); // 모달 열기
         }
+    };
+
+    //백준 계정 서버에 전송완료 했다면
+    const handleBaekjoonConnectSuccess = () => {
+        setIsBaekjoonConnected(true);
     };
 
     // Account Delete
@@ -137,7 +136,7 @@ const Setting = () => {
     };
 
     return (
-        <div className='m-ful flex h-[100vh] w-full flex-col items-center'>
+        <div className='m-ful flex h-full w-full flex-col items-center'>
             <div className='relative h-250 w-[calc(100%-500px)] min-w-627 pt-50'>
                 <h1 className='h-auto min-w-0 border-b border-gray-300 text-32'>General</h1>
                 <div className='mt-15'>
@@ -224,6 +223,11 @@ const Setting = () => {
                     </div>
                 </div>
             </div>
+            <BaekjoonConnectModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSuccess={handleBaekjoonConnectSuccess}
+            />
         </div>
     );
 };
