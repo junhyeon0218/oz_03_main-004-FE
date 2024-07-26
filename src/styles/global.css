@@ -16,7 +16,6 @@
         font-family: 'Pretendard';
         font-weight: 400;
         margin: 0;
-        overflow-x: hidden;
     }
 
     html,
@@ -96,21 +95,57 @@
 }
 .swiper-button-next::after,
 .swiper-button-prev::after {
-    @apply text-primary;
+    @apply text-primary tablet:text-16;
 }
+
+.swiper-button-next {
+    @apply tablet:flex tablet:justify-end;
+}
+
+.swiper-button-prev {
+    @apply tablet:flex tablet:justify-start;
+}
+
 .swiper-button-prev.swiper-button-disabled,
 .swiper-button-next.swiper-button-disabled {
     @apply hidden;
 }
 
 .swiper-button-next {
-    @apply right-[0px];
+    @apply right-[0px] middle:mr-5 tablet:m-0;
 }
 .swiper-button-prev {
-    @apply left-[0px];
+    @apply left-[0px] middle:ml-5 tablet:m-0;
 }
 
 .swiper-pagination-bullet-active {
     opacity: 1;
     background-color: #8b4513;
+}
+
+.potato-image-container {
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+.potato-image-container img {
+    display: block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.potato-image-container:hover img {
+    transform: scale(1.1);
+}
+
+.potato-description-container {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition:
+        opacity 0.3s ease-in-out,
+        transform 0.3s ease-in-out;
+}
+
+.potato-image-container:hover .potato-description-container {
+    opacity: 1;
+    transform: translateX(0);
 }

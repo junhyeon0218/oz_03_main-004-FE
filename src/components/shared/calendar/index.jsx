@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useCalendar from '../../../hooks/useCalendar';
 import { subMonths, addMonths, format } from 'date-fns';
-import left from '/button/left.svg';
-import right from '/button/right.svg';
 import useDate from '../../../store/store';
 import { fetchCompletedCounts } from '../../../api/axios';
 
@@ -59,31 +57,31 @@ const Calendar = () => {
     };
 
     return (
-        <div className='flex flex-col h-full'>
-            <div className='flex justify-between w-full'>
-                <h1 className='font-bold text-20 leading-30'>Calendar</h1>
-                <div className='flex justify-between w-auto'>
+        <div className='flex h-full flex-col'>
+            <div className='flex w-full justify-between'>
+                <h1 className='text-20 font-bold leading-30'>Calendar</h1>
+                <div className='flex w-auto justify-between'>
                     <div
-                        className='flex items-center justify-center cursor-pointer min-w-40 grow'
+                        className='flex min-w-40 grow cursor-pointer items-center justify-center'
                         onClick={handlePrevMonth}
                     >
-                        <img src={left} alt='' className='w-12' />
+                        <img src='/images/left.svg' alt='' className='w-12' />
                     </div>
 
-                    <div className='flex items-baseline justify-center w-100'>
-                        <p className='h-24 font-bold text-20'>{format(currentDate, 'MMM.')}</p>
+                    <div className='flex w-100 items-baseline justify-center'>
+                        <p className='h-24 text-20 font-bold'>{format(currentDate, 'MMM.')}</p>
                         <p className='text-16'>{format(currentDate, 'yyyy')}</p>
                     </div>
                     <div
-                        className='flex items-center justify-center cursor-pointer min-w-40 grow'
+                        className='flex min-w-40 grow cursor-pointer items-center justify-center'
                         onClick={handleNextMonth}
                     >
-                        <img src={right} alt='' className='w-12' />
+                        <img src='/images/right.svg' alt='' className='w-12' />
                     </div>
                 </div>
             </div>
 
-            <div className='flex w-full mt-30 border-b-1 border-strong'>
+            <div className='mt-30 flex w-full border-b-1 border-strong'>
                 {DAY_LIST.map((day, index) => (
                     <div key={index} className='flex w-[calc(100%/7)] items-center justify-center'>
                         <p className={index === 0 ? 'text-red' : index === 6 ? 'text-blue' : ''}>{day}</p>
@@ -91,13 +89,13 @@ const Calendar = () => {
                 ))}
             </div>
 
-            <div className='flex flex-col w-full mt-6 grow'>
+            <div className='mt-6 flex w-full grow flex-col'>
                 {weekCalendarList.map((week, weekIndex) => (
                     <div key={weekIndex} className='flex h-[calc(100%/6)] w-full'>
                         {week.map((day, dayIndex) => (
                             <div
                                 key={dayIndex}
-                                className='flex items-center justify-center w-full cursor-pointer'
+                                className='flex w-full cursor-pointer items-center justify-center'
                                 onClick={() => handleDateClick(day)}
                             >
                                 <p

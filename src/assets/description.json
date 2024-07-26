@@ -1,0 +1,57 @@
+[
+    {
+        "id": "1",
+        "name": "levelOnePotato",
+        "description": "Can be obtained after 50 commits."
+    },
+    {
+        "id": "2",
+        "name": "levelTwoPotato",
+        "description": "Can be obtained after 75 commits."
+    },
+    {
+        "id": "3",
+        "name": "levelThreePotato",
+        "description": "Can be obtained after 113 commits."
+    },
+    {
+        "id": "4",
+        "name": "levelFourPotato",
+        "description": "Can be obtained after 170 commits."
+    },
+    {
+        "id": "5",
+        "name": "levelFivePotato",
+        "description": "Can be obtained after 255 commits."
+    },
+    {
+        "id": "6",
+        "name": "winterPotato",
+        "description": "Can be obtained by committing on Christmas Day."
+    },
+    {
+        "id": "7",
+        "name": "ghostPotato",
+        "description": "Can be obtained by committing on Halloween."
+    },
+    {
+        "id": "8",
+        "name": "crystalPotato",
+        "description": "Can be obtained by committing consecutively for a month."
+    },
+    {
+        "id": "9",
+        "name": "dirtyPotato",
+        "description": "Can be obtained if there are no commits for a month."
+    },
+    {
+        "id": "10",
+        "name": "greenPotato",
+        "description": "Can be obtained if there are no commits for 3 months."
+    },
+    {
+        "id": "11",
+        "name": "shPotato",
+        "description": "?"
+    }
+]
