@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Loading from '../../common/loading';
 
 // CircularProgressBar 컴포넌트 정의
 const CircularProgressBar = ({ level, currentXP, maxXP }) => {
@@ -8,12 +9,18 @@ const CircularProgressBar = ({ level, currentXP, maxXP }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth >= 1920) {
+            if (window.innerWidth >= 2260) {
                 setRadius(150);
                 setStroke(18);
-            } else {
+            } else if (window.innerWidth >= 1920) {
+                setRadius(120);
+                setStroke(16);
+            } else if (window.innerWidth >= 1199) {
                 setRadius(90);
                 setStroke(12);
+            } else {
+                setRadius(120);
+                setStroke(16);
             }
         };
 

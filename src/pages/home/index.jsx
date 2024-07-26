@@ -47,15 +47,18 @@ const Home = () => {
 
     return (
         <div className='flex h-[calc(100vh-80px)] w-full flex-col gap-5 px-10 py-20'>
-            <div className='mx-auto flex h-1/3 w-[calc(100%-500px)] gap-30 hwide:h-270 wide:w-1400'>
-                <div className='aspect-6/5 h-full rounded-4 p-24 shadow-custom-dark'>
+            <div className='mx-auto flex h-1/3 w-[calc(100%-500px)] items-start gap-30 hwide:h-270 wide:w-1400 middle:w-[calc(100%-250px)] tablet:mx-auto tablet:min-h-700 tablet:w-full tablet:flex-wrap tablet:justify-between tablet:gap-0 tablet:px-10'>
+                <div className='h-full w-1/4 rounded-4 p-24 shadow-custom-dark tablet:h-[calc(50%-10px)] tablet:w-[calc(50%-10px)] tablet:p-12'>
                     <Potato selectedImage={confirmedImage} /> {/* 확정된 이미지를 전달 */}
                 </div>
-                <div className='flex h-full grow items-center justify-between rounded-4 p-24 shadow-custom-dark'>
+                <div className='flex h-full w-1/4 items-center justify-center rounded-4 p-24 shadow-custom-dark tablet:h-[calc(50%-10px)] tablet:w-[calc(50%-10px)] tablet:p-12'>
                     <Level />
+                </div>
+                <div className='h-full w-1/4 rounded-4 p-24 shadow-custom-dark tablet:h-[calc(50%-10px)] tablet:w-[calc(50%-10px)] tablet:p-12'>
                     <Info />
                 </div>
-                <div className='h-full min-w-400 max-w-550 grow rounded-4 p-24 shadow-custom-dark'>
+
+                <div className='h-full w-1/4 rounded-4 p-24 shadow-custom-dark tablet:h-[calc(50%-10px)] tablet:w-[calc(50%-10px)] tablet:p-12'>
                     <Stack />
                 </div>
             </div>
@@ -65,13 +68,13 @@ const Home = () => {
                 spaceBetween={110}
                 slidesPerView={1}
                 navigation
-                className='relative mx-auto mt-20 flex h-2/3 w-[calc(100%-300px)] grow px-100 wide:w-1550 wide:px-75'
+                className='mx-auto mt-20 flex h-2/3 w-[calc(100%-300px)] grow px-100 wide:w-1550 wide:px-75 middle:w-[calc(100%-150px)] middle:px-50 tablet:m-0 tablet:w-full tablet:px-12'
             >
-                <SwiperSlide className='flex justify-between gap-30 py-8'>
-                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
+                <SwiperSlide className='flex justify-between py-8 gap-30'>
+                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
                         <Calendar />
                     </div>
-                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
+                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
                         <Todo />
                     </div>
                 </SwiperSlide>
