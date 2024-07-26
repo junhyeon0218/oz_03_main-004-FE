@@ -42,7 +42,8 @@ module.exports = {
       screens: {
         hwide: {max:'2260px'},
         wide: { max: '1920px' },
-        middle: { max: '1420px' },
+        middle: { max: '1600px' },
+        1440: { max: '1440px' },
         tablet: { max: '1199px' },
         mobile: { max: '767px' },
       },
@@ -58,7 +59,7 @@ module.exports = {
         swell: {
           '0%, 100%': { transform: 'translate(0, -30px)' },
           '50%': { transform: 'translate(0, 5px)' },
-        },
+        }, 
         twinkle: {
           '0%': { transform: 'rotateY(0deg)' },
           '100%': { transform: 'rotateY(360deg)' },
@@ -75,6 +76,7 @@ module.exports = {
           '100%': { transform: 'translateY(0%)', opacity: '1' },
           '0%': { transform: 'translateY(-50%)', opacity: '0' },
         },
+        
       },
       animation: {
         wave: 'wave 7s linear infinite',
