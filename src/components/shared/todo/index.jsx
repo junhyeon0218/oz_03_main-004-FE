@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useDate from '../../../store/store';
-import axiosInstance, { fetchTodosForDate } from '../../../api/axios';
+
 import Loading from '../../common/loading';
 import Alert from '../../common/alert';
 
