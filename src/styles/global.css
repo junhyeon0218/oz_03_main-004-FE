@@ -88,6 +88,26 @@
     }
 }
 
+.text-outline {
+    text-shadow:
+        -1px -1px 0 #421d06,
+        1px -1px 0 #421d06,
+        -1px 1px 0 #421d06,
+        1px 1px 0 #421d06,
+        -2px -2px 0 #421d06,
+        2px -2px 0 #421d06,
+        -2px 2px 0 #421d06,
+        2px 2px 0 #421d06,
+        -3px -3px 0 #421d06,
+        3px -3px 0 #421d06,
+        -3px 3px 0 #421d06,
+        3px 3px 0 #421d06,
+        -4px -4px 0 #421d06,
+        4px -4px 0 #421d06,
+        -4px 4px 0 #421d06,
+        4px 4px 0 #421d06;
+}
+
 /* Swiper */
 .swiper-button-next,
 .swiper-button-prev {

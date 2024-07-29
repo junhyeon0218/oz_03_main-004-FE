@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import Calendar from '../../components/shared/calendar';
 import Info from '../../components/shared/info';
 import Potato from '../../components/shared/potato';
@@ -11,23 +11,26 @@ import Stack from '../../components/shared/stack';
 import Todo from '../../components/shared/todo';
 import Collection from '../../components/shared/collection';
 import Level from '../../components/shared/level';
-import ChangePotatoModal from '../../components/modal/ChangePotatoModal';
-import NewPotatoEarnedModal from '../../components/modal/NewPotatoEarnedModal';
-import PotatoInfoModal from '../../components/modal/PotatoInfoModal';
+import { ChangePotatoModal, PotatoInfoModal, UserUpdateModal } from '../../components/modal/index';
 
 const Home = () => {
-    const [isNewPotatoEarnedModalOpen, setIsNewPotatoEarnedModalOpen] = useState(false);
     const [isChangePotatoModalOpen, setIsChangePotatoModalOpen] = useState(false);
     const [isPotatoInfoModalOpen, setIsPotatoInfoModalOpen] = useState(false);
+    const [isUserUpdateModal, setIsUserUpdateModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null); // 선택된 이미지 초기화
     const [confirmedImage, setConfirmedImage] = useState(null); // 확정된 이미지 초기화
+
+    useEffect(() => {
+        setIsUserUpdateModal(true);
+    }, []);
 
     // 이미지 선택 시
     const handleSelectImage = (image) => {
         setSelectedImage(image); // 선택된 이미지를 상태에 저장
         setIsChangePotatoModalOpen(true);
     };
-    // ChangePotatoModal 모달에서 OK 버튼 클릭 시 서버에 이미지 정보를 여기서 저장
+
+    // ChangePotatoModal 모달에서 OK 버튼 클릭 시 서버에 이미지 정보를 저장
     const handleConfirmChange = async (image) => {
         setConfirmedImage(image); // 이미지 상태를 업데이트
 
@@ -38,11 +41,6 @@ const Home = () => {
         // } catch (error) {
         //     console.error('Error saving image:', error);
         // }
-    };
-
-    // 새로운 감자 얻었을때 NewPotatoEarnedModal모달
-    const handleGetNewPotato = () => {
-        setIsNewPotatoEarnedModalOpen(true);
     };
 
     return (
@@ -57,7 +55,6 @@ const Home = () => {
                 <div className='h-full w-1/4 rounded-4 p-24 shadow-custom-dark tablet:h-[calc(50%-10px)] tablet:w-[calc(50%-10px)] tablet:p-12'>
                     <Info />
                 </div>
-
                 <div className='h-full w-1/4 rounded-4 p-24 shadow-custom-dark tablet:h-[calc(50%-10px)] tablet:w-[calc(50%-10px)] tablet:p-12'>
                     <Stack />
                 </div>
@@ -70,11 +67,11 @@ const Home = () => {
                 navigation
                 className='mx-auto mt-20 flex h-2/3 w-[calc(100%-300px)] grow px-100 wide:w-1550 wide:px-75 middle:w-[calc(100%-150px)] middle:px-50 tablet:m-0 tablet:w-full tablet:px-12'
             >
-                <SwiperSlide className='flex justify-between py-8 gap-30'>
-                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
+                <SwiperSlide className='flex justify-between gap-30 py-8'>
+                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
                         <Calendar />
                     </div>
-                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
+                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
                         <Todo />
                     </div>
                 </SwiperSlide>
@@ -89,10 +86,18 @@ const Home = () => {
                 selectedImage={selectedImage} // 선택된 이미지 전달
                 onConfirm={handleConfirmChange} // 확인 버튼 클릭 확정 이미지 전달
             />
-            {/* <NewPotatoEarnedModal
-                isOpen={isNewPotatoEarnedModalOpen}
-                onClose={() => setIsNewPotatoEarnedModalOpen(false)}
-            /> */}
+            <PotatoInfoModal
+                isOpen={isPotatoInfoModalOpen}
+                onClose={() => {
+                    setIsPotatoInfoModalOpen(false);
+                }}
+            />
+            <UserUpdateModal
+                isOpen={isUserUpdateModal}
+                onClose={() => {
+                    setIsUserUpdateModal(false);
+                }}
+            />
         </div>
     );
 };
