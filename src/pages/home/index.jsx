@@ -19,28 +19,43 @@ const Home = () => {
     const [isUserUpdateModal, setIsUserUpdateModal] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null); // 선택된 이미지 초기화
     const [confirmedImage, setConfirmedImage] = useState(null); // 확정된 이미지 초기화
+    const [isOverlayed, setIsOverlayed] = useState(false); // 오버레이 상태
 
     useEffect(() => {
         setIsUserUpdateModal(true);
     }, []);
 
-    // 이미지 선택 시
-    const handleSelectImage = (image) => {
-        setSelectedImage(image); // 선택된 이미지를 상태에 저장
-        setIsChangePotatoModalOpen(true);
+    const handleSelectImage = (image, isOverlayed) => {
+        setSelectedImage(image);
+        setIsOverlayed(isOverlayed); // 오버레이 상태 업데이트
+        setIsPotatoInfoModalOpen(true);
     };
-
-    // ChangePotatoModal 모달에서 OK 버튼 클릭 시 서버에 이미지 정보를 저장
+    // ChangePotatoModal 모달에서 OK 버튼 클릭 시 서버에 이미지 정보를 여기서 저장
     const handleConfirmChange = async (image) => {
-        setConfirmedImage(image); // 이미지 상태를 업데이트
-
+        setConfirmedImage(image);
+        // 서버에 이미지 정보를 저장하는 코드 (현재는 주석 처리)
         // try {
         //     const response = await axios.post('/api/potato', { image });
         //     console.log('Image saved successfully');
-        //     setConfirmedImage(image); // OK 버튼을 눌렀을 때만 이미지 상태를 업데이트합니다.
+        //     setConfirmedImage(image);
         // } catch (error) {
         //     console.error('Error saving image:', error);
         // }
+    };
+
+    const handleGetNewPotato = () => {
+        setIsNewPotatoEarnedModalOpen(true);
+    };
+
+    const handlePotatoInfoModalOkClick = () => {
+        setIsPotatoInfoModalOpen(false);
+        if (!isOverlayed) {
+            setIsChangePotatoModalOpen(true); // 오버레이가 없는 경우에만 ChangePotatoModal 실행
+        }
+    };
+
+    const handlePotatoInfoModalClose = () => {
+        setIsPotatoInfoModalOpen(false);
     };
 
     return (
@@ -67,30 +82,30 @@ const Home = () => {
                 navigation
                 className='mx-auto mt-20 flex h-2/3 w-[calc(100%-300px)] grow px-100 wide:w-1550 wide:px-75 middle:w-[calc(100%-150px)] middle:px-50 tablet:m-0 tablet:w-full tablet:px-12'
             >
-                <SwiperSlide className='flex justify-between gap-30 py-8'>
-                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
+                <SwiperSlide className='flex justify-between py-8 gap-30'>
+                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
                         <Calendar />
                     </div>
-                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
+                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
                         <Todo />
                     </div>
                 </SwiperSlide>
                 <SwiperSlide className='h-full py-8'>
-                    <Collection onSelectImage={handleSelectImage} /> {/* 이미지 선택 핸들러 전달 */}
+                    <Collection onSelectImage={handleSelectImage} />
                 </SwiperSlide>
             </Swiper>
-
+            <PotatoInfoModal
+                isOpen={isPotatoInfoModalOpen}
+                onClose={handlePotatoInfoModalClose}
+                onOk={handlePotatoInfoModalOkClick}
+                selectedImage={selectedImage}
+                isOverlayed={isOverlayed} // 오버레이 상태 전달
+            />
             <ChangePotatoModal
                 isOpen={isChangePotatoModalOpen}
                 onClose={() => setIsChangePotatoModalOpen(false)}
-                selectedImage={selectedImage} // 선택된 이미지 전달
-                onConfirm={handleConfirmChange} // 확인 버튼 클릭 확정 이미지 전달
-            />
-            <PotatoInfoModal
-                isOpen={isPotatoInfoModalOpen}
-                onClose={() => {
-                    setIsPotatoInfoModalOpen(false);
-                }}
+                selectedImage={selectedImage}
+                onConfirm={handleConfirmChange}
             />
             <UserUpdateModal
                 isOpen={isUserUpdateModal}
