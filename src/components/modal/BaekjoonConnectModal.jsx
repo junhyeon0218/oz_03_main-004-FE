@@ -27,7 +27,7 @@ const BaekjoonConnectModal = ({ isOpen, onClose, onSuccess }) => {
     return (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
             <div
-                className='animate-slide-up relative flex h-267 w-546 flex-col justify-around overflow-hidden rounded-4 bg-white p-10 shadow-custom-dark'
+                className='relative flex h-267 w-546 animate-slide-up flex-col justify-around overflow-hidden rounded-4 bg-white p-10 shadow-custom-dark'
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className='text-center'>
@@ -64,7 +64,7 @@ const BaekjoonConnectModal = ({ isOpen, onClose, onSuccess }) => {
                 </div>
                 <img
                     className='absolute bottom-[-100px] right-[-100px] h-[300.53px] w-[243.09px] origin-top-left rotate-[17.03deg] opacity-20'
-                    src='/potato.svg'
+                    src='/images/potato.svg'
                     alt=''
                 />
             </div>
