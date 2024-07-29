@@ -95,9 +95,9 @@ function Collection({ onSelectImage }) {
             </div>
             <button onClick={toggleSize} className='absolute p-2 bg-transparent right-2 top-2 rounded-4'>
                 {isExpanded ? (
-                    <img src='/collection/uparrow.svg' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
+                    <img src='/src/assets/images/uparrow.svg' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
                 ) : (
-                    <img src='/collection/downarrow.svg' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
+                    <img src='/src/assets/images/downarrow.svg' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
                 )}
             </button>
             <div className='overflow-y-scroll scrollbar-hide'>

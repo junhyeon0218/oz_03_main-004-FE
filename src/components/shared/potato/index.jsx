@@ -1,7 +1,6 @@
 import Loading from '../../common/loading';
 import Alert from '../../common/alert';
 import React, { useEffect, useState } from 'react';
-import coinImage from '../../../../public/potato/coin.svg';
 
 const Potato = ({ selectedImage }) => {
     const [coinCount, setCoinCount] = useState(0);
@@ -24,7 +23,8 @@ const Potato = ({ selectedImage }) => {
     return (
         <div className='flex flex-col items-center w-auto h-auto'>
             <div className='flex justify-center w-full'>
-                <img src={coinImage} className='mr-5 mb-30 h-25 w-55 text-14' alt='Coin' /> : {coinCount}
+                <img src='/src/assets/images/coin.svg' className='mr-5 mb-30 h-25 w-55 text-14' alt='Coin' /> :{' '}
+                {coinCount}
             </div>
             {selectedImage ? (
                 <img src={selectedImage} alt='Selected Potato' className='scale-150 h-100 w-120' />
