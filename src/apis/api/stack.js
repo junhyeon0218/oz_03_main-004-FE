@@ -1,8 +1,8 @@
-import { baseInstance, authInstance } from './instance';
+import { authInstance } from './instance';
 
 export const stackAPI = {
     getAllStacks: async () => {
-        const { data } = await baseInstance.get('/stacks/all');
+        const { data } = await authInstance.get('/stacks/all');
         return data;
     },
 
