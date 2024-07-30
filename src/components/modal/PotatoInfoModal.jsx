@@ -70,7 +70,7 @@ const PotatoInfoModal = ({ isOpen, selectedImage, onClose, onOk, isOverlayed }) 
                         {/* isOverlayed가 true일 때 Group.svg 이미지로 오버레이 처리 */}
                         {isOverlayed && (
                             <div className='absolute inset-0 flex items-center justify-center rounded-4 bg-[#d9d9d9] bg-opacity-30 backdrop-blur-sm'>
-                                <img src='/src/assets/images/Group.svg' alt='Overlay' className='h-100 w-100' />
+                                <img src='/src/assets/images/Group.png' alt='Overlay' className='h-100 w-100' />
                             </div>
                         )}
                     </div>

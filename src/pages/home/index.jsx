@@ -12,6 +12,7 @@ import Todo from '../../components/shared/todo';
 import Collection from '../../components/shared/collection';
 import Level from '../../components/shared/level';
 import { ChangePotatoModal, PotatoInfoModal, UserUpdateModal } from '../../components/modal/index';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [isChangePotatoModalOpen, setIsChangePotatoModalOpen] = useState(false);
@@ -21,9 +22,24 @@ const Home = () => {
     const [confirmedImage, setConfirmedImage] = useState(null); // 확정된 이미지 초기화
     const [isOverlayed, setIsOverlayed] = useState(false); // 오버레이 상태
 
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
     useEffect(() => {
         setIsUserUpdateModal(true);
     }, []);
+
+    // useEffect(() => {
+    //     // 세션 스토리지에서 사용자 정보 가져오기
+    //     const userInfo = sessionStorage.getItem('user');
+
+    //     if (userInfo) {
+    //         setUser(JSON.parse(userInfo));
+    //     } else {
+    //         // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
+    //         navigate('/signin');
+    //     }
+    // }, [navigate]);
 
     const handleSelectImage = (image, isOverlayed) => {
         setSelectedImage(image);
@@ -82,11 +98,11 @@ const Home = () => {
                 navigation
                 className='mx-auto mt-20 flex h-2/3 w-[calc(100%-300px)] grow px-100 wide:w-1550 wide:px-75 middle:w-[calc(100%-150px)] middle:px-50 tablet:m-0 tablet:w-full tablet:px-12'
             >
-                <SwiperSlide className='flex justify-between py-8 gap-30'>
-                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
+                <SwiperSlide className='flex justify-between gap-30 py-8'>
+                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
                         <Calendar />
                     </div>
-                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
+                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
                         <Todo />
                     </div>
                 </SwiperSlide>

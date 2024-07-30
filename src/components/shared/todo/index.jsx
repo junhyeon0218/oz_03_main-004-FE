@@ -27,9 +27,9 @@ const TodoInput = ({ onAdd, onCancel }) => {
                 maxLength={50}
             />
             <div className='flex'>
-                <img src='/images/checkBtn.svg' onClick={handleAdd} className='aspect-square' alt='' />
+                <img src='/images/checkBtn.png' onClick={handleAdd} className='aspect-square' alt='' />
 
-                <img src='/images/deleteBtn.svg' onClick={onCancel} className='aspect-square' alt='' />
+                <img src='/images/deleteBtn.png' onClick={onCancel} className='aspect-square' alt='' />
             </div>
         </div>
     );
@@ -60,12 +60,12 @@ const TodoItem = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
             )}
             <div className='flex'>
                 {isEditing ? (
-                    <img src='/images/checkBtn.svg' alt='' onClick={handleUpdate} className='w-20 h-20' />
+                    <img src='/images/checkBtn.png' alt='' onClick={handleUpdate} className='w-20 h-20' />
                 ) : (
-                    <img src='/images/write.svg' onClick={() => setIsEditing(true)} alt='' />
+                    <img src='/images/write.png' onClick={() => setIsEditing(true)} alt='' />
                 )}
 
-                <img src='/images/deleteBtn.svg' onClick={() => onDelete(todo.id)} className='aspect-square' alt='' />
+                <img src='/images/deleteBtn.png' onClick={() => onDelete(todo.id)} className='aspect-square' alt='' />
             </div>
         </div>
     );
@@ -90,82 +90,6 @@ const Todo = () => {
         setAlert({ show: false, message: '', type: 'success' });
     };
 
-    // 서버 연동시 주석 풀기
-    // const loadTodos = async () => {
-    //      setLoading(true);
-    //     try {
-    //         const data = await fetchTodosForDate(selectedDate);
-    //         setTodos(data);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.error('Failed to load todos:', error);
-    //     }
-    // };
-    // // 선택된 날짜 투두 가져오기
-    // useEffect(() => {
-    //     loadTodos();
-    // }, [selectedDate]);
-
-    // 새로운 todo 항목 추가
-    // const handleAddTodo = async (text) => {
-    //     try {
-    //         const response = await axiosInstance.post('/todos', {
-    //             id: Date.now(),
-    //             date: selectedDate,
-    //             text,
-    //             completed: false,
-    //         });
-    //         setTodos((prevTodos) => [...prevTodos, response.data]);
-    //         setIsAdding(false);
-    //         loadTodos();
-    //     } catch (error) {
-    //         console.error('Failed to add todo:', error);
-    //     }
-    // };
-
-    // // 기존 todo 항목 업데이트
-    // const handleUpdateTodo = async (id, newText) => {
-    //     try {
-    //         const response = await axiosInstance.put(`/todos/${id}`, {
-    //             text: newText,
-    //         });
-    //         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? response.data : todo)));
-    //         loadTodos();
-    //     } catch (error) {
-    //         console.error('Failed to update todo:', error);
-    //     }
-    // };
-
-    // // todo 항목 삭제
-    // const handleDeleteTodo = async (id) => {
-    //     try {
-    //         await axiosInstance.delete(`/todos/${id}`);
-    //         setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-    //         loadTodos();
-    //     } catch (error) {
-    //         console.error('Failed to delete todo:', error);
-    //     }
-    // };
-
-    // // todo 항목의 완료 상태를 토글하는 함수
-    // const handleToggleComplete = async (id) => {
-    //     try {
-    //         const todoToUpdate = todos.find((todo) => todo.id === id);
-    //         const response = await axiosInstance.put(`/todos/${id}`, {
-    //             completed: !todoToUpdate.completed,
-    //         });
-    //         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? response.data : todo)));
-    //         loadTodos();
-    //     } catch (error) {
-    //         console.error('Failed to toggle todo completion:', error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     console.log(todos);
-    // }, [todos]);
-
-    // 개발 단계용
     // 새로운 todo 항목 추가
     const handleAddTodo = (text) => {
         setLoading(true);
@@ -215,7 +139,7 @@ const Todo = () => {
                             onClick={() => setIsAdding(true)}
                             className='flex items-center justify-center rounded-full h-30 w-80 shadow-custom-light'
                         >
-                            <img src='/images/write.svg' alt='' />
+                            <img src='/images/write.png' alt='' />
                             <span className='ml-2 text-14 text-gray-98'>write</span>
                         </button>
                     ) : (
