@@ -123,32 +123,32 @@ const Stack = () => {
     };
 
     return (
-        <div className='h-full w-full'>
+        <div className='w-full h-full'>
             {selectedStacks.length > 0 || isEdit ? (
                 <>
-                    <div className='flex h-30 justify-between'>
-                        <h1 className='1440:text-18 text-20 font-bold leading-30'>Skills & Stacks</h1>
+                    <div className='flex justify-between h-30'>
+                        <h1 className='font-bold text-20 leading-30 1440:text-18'>Skills & Stacks</h1>
                         <button
                             type='button'
                             onClick={handleEditWithReset}
-                            className='flex h-30 w-81 items-center justify-center rounded-16 bg-white px-14 py-6 shadow-custom-light'
+                            className='flex items-center justify-center py-6 bg-white h-30 w-81 rounded-16 px-14 shadow-custom-light'
                         >
-                            <img src='/images/write.svg' alt='' />
+                            <img src='/images/write.png' alt='' />
                             <span className='ml-6 h-18 whitespace-nowrap text-14 text-gray-98'>
                                 {isEdit ? 'save' : 'edit'}
                             </span>
                         </button>
                     </div>
                     {isEdit && (
-                        <div className='animate-slide-down mb-10 mt-15 flex h-32 w-full items-center justify-between rounded-8 bg-gray-fa px-12 shadow-custom-light'>
+                        <div className='flex items-center justify-between w-full h-32 px-12 mb-10 mt-15 animate-slide-down rounded-8 bg-gray-fa shadow-custom-light'>
                             <input
                                 type='text'
                                 placeholder='Search and find Skill & Stack'
-                                className='mr-4 flex-grow bg-gray-fa text-14 text-black placeholder:text-gray-98'
+                                className='flex-grow mr-4 text-black bg-gray-fa text-14 placeholder:text-gray-98'
                                 value={searchKey}
                                 onChange={handleSearchChange}
                             />
-                            <img src='/images/search.svg' className='h-25 w-25 cursor-pointer' />
+                            <img src='/images/search.png' className='cursor-pointer h-25 w-25' />
                         </div>
                     )}
                     <div
@@ -167,10 +167,10 @@ const Stack = () => {
                     </div>
                 </>
             ) : (
-                <div className='flex h-full w-full flex-col items-center justify-center text-center'>
-                    <h1 className='text-20 font-bold leading-30'>Choose your Skills & Stack</h1>
+                <div className='flex flex-col items-center justify-center w-full h-full text-center'>
+                    <h1 className='font-bold text-20 leading-30'>Choose your Skills & Stack</h1>
                     <button
-                        className='mt-7 h-44 rounded-4 bg-primary p-10 text-16 font-bold text-white duration-200 hover:scale-105'
+                        className='p-10 font-bold text-white duration-200 mt-7 h-44 rounded-4 bg-primary text-16 hover:scale-105'
                         onClick={handleChooseClick}
                     >
                         Choose

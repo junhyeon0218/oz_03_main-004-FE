@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-    const [user, setUser] = useState(true);
+    const [user, setUser] = useState(false);
     const navigate = useNavigate();
 
     return (
@@ -11,16 +11,16 @@ const Header = () => {
             <div className='mx-auto flex h-48 w-[calc(100%-500px)] items-center justify-between wide:w-1400'>
                 <div className='flex items-center h-50 w-182' onClick={() => navigate('/home')}>
                     <div className='h-31 w-25'>
-                        <img src='/images/potato.svg' className='w-full h-auto' alt='' />
+                        <img src='/images/potato.png' className='w-full h-auto' alt='' />
                     </div>
                     <h1 className='h-48 ml-6 font-bold w-150 text-32'>GitPotato</h1>
                 </div>
                 {user ? (
                     <div className='flex items-center justify-center gap-15'>
                         <p className='underline'>username</p>
-                        <img src='/images/user.svg' alt='' />
+                        <img src='/images/user.png' alt='' />
                         <img
-                            src='/images/setting.svg'
+                            src='/images/setting.png'
                             className='cursor-pointer w-25'
                             alt=''
                             onClick={() => navigate('/setting')}
@@ -32,7 +32,7 @@ const Header = () => {
                         onClick={() => navigate('/signin')}
                     >
                         Start with GitHub
-                        <img src='/images/iconGithub.svg' alt='' />
+                        <img src='/images/iconGithub.png' alt='' />
                     </button>
                 )}
             </div>

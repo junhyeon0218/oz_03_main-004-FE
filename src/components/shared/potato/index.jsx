@@ -23,7 +23,7 @@ const Potato = ({ selectedImage }) => {
     return (
         <div className='flex flex-col items-center w-auto h-auto'>
             <div className='flex justify-center w-full'>
-                <img src='/src/assets/images/coin.svg' className='mr-5 mb-30 h-25 w-55 text-14' alt='Coin' /> :{' '}
+                <img src='/src/assets/images/coin.png' className='w-20 h-20 mr-5 mb-30 text-14' alt='Coin' /> :{' '}
                 {coinCount}
             </div>
             {selectedImage ? (

@@ -5,6 +5,7 @@ import Signin from './pages/signin';
 import Home from './pages/home';
 import Setting from './pages/setting';
 import Profile from './pages/profile';
+import OAuthCallback from './pages/oauthCallback';
 
 const Layout = () => {
     return (
@@ -28,6 +29,7 @@ function App() {
             </Route>
             <Route path='/signin' element={<Signin />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/oauth-callback' element={<OAuthCallback />} />
         </Routes>
     );
 }

@@ -107,39 +107,39 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
 
     return (
         <div onClick={onClose} className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-            <div className='flex h-626 w-620 animate-slide-up flex-col items-center'>
+            <div className='flex flex-col items-center h-626 w-620 animate-slide-up'>
                 <div
                     className='animate-scaleUp mb-[-10px] h-118 w-full bg-opacity-70 bg-cover bg-top text-center'
-                    style={{ backgroundImage: "url('/images/levelup.svg')" }}
+                    style={{ backgroundImage: "url('/images/levelup.png')" }}
                 >
-                    <div className='text-outline my-10 text-64 font-bold tracking-wide text-basic'>
+                    <div className='my-10 font-bold tracking-wide text-outline text-64 text-basic'>
                         {(levelupAlert && 'Welcome Back!') || 'Level UP!'}
                     </div>
                 </div>
-                <div className='flex h-540 w-full flex-col items-center justify-around bg-white'>
-                    <h1 className='mt-10 text-24 font-bold text-strong'>
+                <div className='flex flex-col items-center justify-around w-full bg-white h-540'>
+                    <h1 className='mt-10 font-bold text-24 text-strong'>
                         {(levelupAlert && `We've Got Some Updates for You`) || 'Congratulations'}
                     </h1>
                     {(levelupAlert && (
                         <div className='h-39'>
-                            <span className='mr-5 text-20 font-bold text-strong'>{commitDifference}</span>
+                            <span className='mr-5 font-bold text-20 text-strong'>{commitDifference}</span>
                             <span className='text-16 text-primary'>commits added to your XP!</span>
                         </div>
                     )) || <div className='hidden'></div>}
 
-                    <div className='bg-fa mb-10 flex h-60 w-453 items-center justify-center rounded-10 border border-strong'>
-                        <span className='text-23 font-bold text-strong'>{previousLevel}레벨</span>
-                        <img src='/images/right-arrow.svg' alt='' className='mx-23 h-24 w-24 text-strong' />
-                        <span className='text-23 font-bold text-strong'>{currentLevel}레벨</span>
+                    <div className='flex items-center justify-center mb-10 border bg-fa h-60 w-453 rounded-10 border-strong'>
+                        <span className='font-bold text-23 text-strong'>{previousLevel}레벨</span>
+                        <img src='/images/right-arrow.png' alt='' className='w-24 h-24 mx-23 text-strong' />
+                        <span className='font-bold text-23 text-strong'>{currentLevel}레벨</span>
                     </div>
 
-                    <div className='h-268 w-573 overflow-hidden rounded-10 border border-strong scrollbar-hide'>
-                        <div className='flex justify-center rounded-10 bg-white py-13'>
-                            <img src='/images/star-icon.svg' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
-                            <img src='/images/star-icon.svg' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
-                            <span className='mx-20 text-23 font-bold text-strong'>New Potato</span>
-                            <img src='/images/star-icon.svg' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
-                            <img src='/images/star-icon.svg' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
+                    <div className='overflow-hidden border h-268 w-573 rounded-10 border-strong scrollbar-hide'>
+                        <div className='flex justify-center bg-white rounded-10 py-13'>
+                            <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
+                            <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
+                            <span className='mx-20 font-bold text-23 text-strong'>New Potato</span>
+                            <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
+                            <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
                         </div>
                         {(showAcquiredNotification && (
                             <Swiper
@@ -153,11 +153,11 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
                             >
                                 {potatoes.map((potato, index) => (
                                     <SwiperSlide key={index} className='flex items-center justify-center'>
-                                        <div className='flex h-190 w-170 flex-shrink-0 flex-col items-center justify-center rounded-4 border shadow-custom-light'>
+                                        <div className='flex flex-col items-center justify-center flex-shrink-0 border h-190 w-170 rounded-4 shadow-custom-light'>
                                             <img
-                                                src={`/images/${potato.name}.svg`}
+                                                src={`/images/${potato.name}.png`}
                                                 alt=''
-                                                className='h-118 w-85 object-cover'
+                                                className='object-cover h-118 w-85'
                                             />
                                             <p className='my-5 text-primary'>{potato.name}</p>
                                         </div>
@@ -165,8 +165,8 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
                                 ))}
                             </Swiper>
                         )) || (
-                            <div className='flex w-full justify-center justify-items-center bg-white'>
-                                <p className='mt-70 text-center text-14 text-gray-98'>
+                            <div className='flex justify-center w-full bg-white justify-items-center'>
+                                <p className='text-center mt-70 text-14 text-gray-98'>
                                     No new potatoes at the moment..!
                                 </p>
                             </div>
@@ -175,7 +175,7 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
 
                     <button
                         onClick={onClose}
-                        className='mb-10 h-33 w-70 rounded-4 bg-primary px-10 py-5 text-14 text-white duration-200 hover:scale-105'
+                        className='px-10 py-5 mb-10 text-white duration-200 h-33 w-70 rounded-4 bg-primary text-14 hover:scale-105'
                     >
                         OK
                     </button>

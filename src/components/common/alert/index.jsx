@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import alertSuccess from '../../../assets/images/alertSuccess.svg';
-import alertWarn from '../../../assets/images/alertWarn.svg';
+import alertSuccess from '../../../assets/images/alertSuccess.png';
+import alertWarn from '../../../assets/images/alertWarn.png';
 
 const Alert = ({ text, type, onClose }) => {
     useEffect(() => {

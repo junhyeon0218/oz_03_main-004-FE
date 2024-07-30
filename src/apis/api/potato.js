@@ -1,8 +1,8 @@
-import { baseInstance, authInstance } from './instance';
+import { baseInstance } from './instance';
 
 export const potatoAPI = {
     getAllPotatoTypes: async () => {
-        const { data } = await baseInstance.get('/potatoes');
+        const { data } = await authInstance.get('/potatoes');
         return data;
     },
 

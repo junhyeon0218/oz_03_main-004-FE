@@ -64,7 +64,7 @@ const Calendar = () => {
                         className='flex items-center justify-center cursor-pointer min-w-40 grow'
                         onClick={handlePrevMonth}
                     >
-                        <img src='/images/left.svg' alt='' className='w-12' />
+                        <img src='/images/left.png' alt='' className='w-12' />
                     </div>
 
                     <div className='flex items-baseline justify-center w-100'>
@@ -75,7 +75,7 @@ const Calendar = () => {
                         className='flex items-center justify-center cursor-pointer min-w-40 grow'
                         onClick={handleNextMonth}
                     >
-                        <img src='/images/right.svg' alt='' className='w-12' />
+                        <img src='/images/right.png' alt='' className='w-12' />
                     </div>
                 </div>
             </div>

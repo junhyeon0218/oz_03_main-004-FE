@@ -33,18 +33,18 @@ function Collection({ onSelectImage }) {
     };
 
     // 이미지 파일을 가져오는 함수
-    const images = import.meta.glob('/src/assets/images/*Potato.{png,jpg,jpeg,svg}');
+    const images = import.meta.glob('/src/assets/images/*Potato.{png,jpg,jpeg,png}');
     const imageFiles = Object.keys(images)
         .map((key) => key.replace('/src/assets/images/', ''))
-        .filter((fileName) => fileName !== 'Group.svg');
+        .filter((fileName) => fileName !== 'Group.png');
 
     // 감자 이미지 순서 설정
     const order = [
-        'levelOnePotato.svg',
-        'levelTwoPotato.svg',
-        'levelThreePotato.svg',
-        'levelFourPotato.svg',
-        'levelFivePotato.svg',
+        'levelOnePotato.png',
+        'levelTwoPotato.png',
+        'levelThreePotato.png',
+        'levelFourPotato.png',
+        'levelFivePotato.png',
     ];
 
     // 이미지 파일 정렬
@@ -72,7 +72,7 @@ function Collection({ onSelectImage }) {
                     <img src={imagePath} alt={`Potato ${i + 1}`} className='h-118 w-85' />
                     {!isOwned && (
                         <div className='absolute left-0 top-0 flex h-full w-full items-center justify-center bg-[#d9d9d9] bg-opacity-50 backdrop-blur-sm'>
-                            <img src='/src/assets/images/Group.svg' alt='Overlay' className='h-100 w-100' />
+                            <img src='/src/assets/images/Group.png' alt='Overlay' className='h-auto w-135' />
                         </div>
                     )}
                     <p className='mt-2'>{title}</p>
@@ -95,9 +95,9 @@ function Collection({ onSelectImage }) {
             </div>
             <button onClick={toggleSize} className='absolute p-2 bg-transparent right-2 top-2 rounded-4'>
                 {isExpanded ? (
-                    <img src='/src/assets/images/uparrow.svg' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
+                    <img src='/src/assets/images/uparrow.png' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
                 ) : (
-                    <img src='/src/assets/images/downarrow.svg' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
+                    <img src='/src/assets/images/downarrow.png' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
                 )}
             </button>
             <div className='overflow-y-scroll scrollbar-hide'>
