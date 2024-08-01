@@ -30,10 +30,9 @@ const Home = () => {
         try {
             const userData = await authAPI.getProfile();
             setUser(userData);
-            console.log(userData);
         } catch (error) {
             console.error('Failed to fetch user data:', error);
-            // navigate('/landing');
+            navigate('/landing');
         }
     };
 
@@ -90,11 +89,11 @@ const Home = () => {
                 navigation
                 className='mx-auto mt-20 flex h-2/3 w-[calc(100%-300px)] grow px-100 wide:w-1550 wide:px-75 middle:w-[calc(100%-150px)] middle:px-50 tablet:m-0 tablet:w-full tablet:px-12'
             >
-                <SwiperSlide className='flex justify-between py-8 gap-30'>
-                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
+                <SwiperSlide className='flex justify-between gap-30 py-8'>
+                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
                         <Calendar />
                     </div>
-                    <div className='w-1/2 h-full p-24 rounded-4 shadow-custom-dark'>
+                    <div className='h-full w-1/2 rounded-4 p-24 shadow-custom-dark'>
                         <Todo />
                     </div>
                 </SwiperSlide>
