@@ -3,6 +3,7 @@ import useDate from '../../../store/dateStore';
 import Alert from '../../common/alert';
 import { todoAPI } from '../../../apis/api/todo';
 import { todoService } from '../../../apis/services/todoService';
+import useCalendarStore from '../../../store/todosCompleteStore';
 
 // TodoInput 컴포넌트: 새로운 todo 항목을 입력하고 추가하거나 취소할 수 있는 입력 폼
 const TodoInput = ({ onAdd, onCancel }) => {
@@ -45,7 +46,6 @@ const TodoItem = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
         onUpdate(todo.id, editValue);
         setIsEditing(false);
     };
-    console.log('TodoItem:', todo);
 
     return (
         <div
@@ -76,11 +76,11 @@ const TodoItem = ({ todo, onUpdate, onDelete, onToggleComplete }) => {
 
 // Todo 컴포넌트: 전체 Todo 리스트를 관리하고, TodoInput과 TodoItem 컴포넌트를 포함하는 메인 컴포넌트
 const Todo = () => {
-    const [user, setUser] = useState(true); // 로그인 여부
     const [todos, setTodos] = useState([]); // todo 항목 저장
     const [isAdding, setIsAdding] = useState(false); // 새로운 todo 항목을 추가 중인지 여부
     const selectedDate = useDate((state) => state.selectedDate); // 선택된 날짜 가져오기
     const [alert, setAlert] = useState({ show: false, message: '', type: 'success' });
+    const { fetchCalendarData } = useCalendarStore();
 
     // Alert 표시 함수
     const showAlert = (message, type = 'success') => {
@@ -96,7 +96,6 @@ const Todo = () => {
     const fetchTodos = async () => {
         try {
             const selectedDateTodos = await todoAPI.getTodosByDate(selectedDate);
-
             setTodos(selectedDateTodos);
         } catch (error) {
             console.error(error);
@@ -145,11 +144,12 @@ const Todo = () => {
     };
 
     // todo 항목의 완료 상태를 토글하는 함수
-    const handleToggleComplete = async (id, isDone) => {
+    const handleToggleComplete = async (id, is_done) => {
         try {
-            const updatedTodos = await todoService.toggleTodoComplete(id, isDone, selectedDate);
+            const updatedTodos = await todoService.toggleTodoComplete(id, is_done, selectedDate);
             setTodos(updatedTodos);
             showAlert('Todo status updated!');
+            fetchCalendarData(selectedDate.slice(0, 4), selectedDate.slice(5, 7));
         } catch (error) {
             console.error(error);
             showAlert('Failed to update todo status', 'error');
@@ -165,17 +165,13 @@ const Todo = () => {
                 <div className='flex justify-between'>
                     <h1 className='text-20 font-bold leading-30'>Todo</h1>
                     <p>{selectedDate}</p>
-                    {user ? (
-                        <button
-                            onClick={() => setIsAdding(true)}
-                            className='flex h-30 w-80 items-center justify-center rounded-full shadow-custom-light'
-                        >
-                            <img src='/images/write.png' alt='' />
-                            <span className='ml-2 text-14 text-gray-98'>write</span>
-                        </button>
-                    ) : (
-                        <div></div>
-                    )}
+                    <button
+                        onClick={() => setIsAdding(true)}
+                        className='flex h-30 w-80 items-center justify-center rounded-full shadow-custom-light'
+                    >
+                        <img src='/images/write.png' alt='' />
+                        <span className='ml-2 text-14 text-gray-98'>write</span>
+                    </button>
                 </div>
                 <div className='relative mt-20 flex h-full grow flex-col overflow-y-auto scrollbar-hide'>
                     {isAdding && <TodoInput onAdd={handleAddTodo} onCancel={() => setIsAdding(false)} />}
