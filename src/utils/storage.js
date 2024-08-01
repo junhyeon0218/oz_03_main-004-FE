@@ -1,11 +1,11 @@
 export const getItem = (item) => {
-    return sessionStorage.getItem(item);
+    return localStorage.getItem(item);
 };
 
 export const setItem = (item, value) => {
-    return sessionStorage.setItem(item, value);
+    return localStorage.setItem(item, value);
 };
 
 export const removeItem = (item) => {
-    return sessionStorage.removeItem(item);
+    return localStorage.removeItem(item);
 };

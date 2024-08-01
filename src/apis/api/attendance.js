@@ -1,4 +1,4 @@
-import { authInstance } from './instance';
+import { authInstance } from '../utils/instance';
 
 export const attendanceAPI = {
     getAttendanceRecords: async () => {

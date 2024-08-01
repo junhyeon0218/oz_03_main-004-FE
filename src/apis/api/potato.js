@@ -1,4 +1,4 @@
-import { baseInstance } from './instance';
+import { baseInstance } from '../utils/instance';
 
 export const potatoAPI = {
     getAllPotatoTypes: async () => {

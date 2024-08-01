@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from '../../components/layout/footer';
 import { useNavigate } from 'react-router-dom';
 

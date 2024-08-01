@@ -1,6 +1,5 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 import { getItem, setItem, removeItem } from '../../utils/storage';
 
 const createAuthAPI = () => {
@@ -10,7 +9,7 @@ const createAuthAPI = () => {
 
     instance.interceptors.request.use(
         async (config) => {
-            let token = getItem('access_token');
+            let token = getItem('accessToken');
 
             if (!token) {
                 throw new Error('No access token');
@@ -51,9 +50,29 @@ function isTokenExpired(token) {
     }
 }
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function setCookie(name, value, days) {
+    let expires = '';
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = `; expires=${date.toUTCString()}`;
+    }
+    document.cookie = `${name}=${value}${expires}; path=/; secure; samesite=strict`;
+}
+
+function deleteCookie(name) {
+    document.cookie = `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+}
+
 async function refreshAccessToken() {
     try {
-        const refreshToken = Cookies.get('refresh_token');
+        const refreshToken = getCookie('refreshToken');
         if (!refreshToken) {
             throw new Error('No refresh token available');
         }
@@ -64,11 +83,7 @@ async function refreshAccessToken() {
         setItem('access_token', newAccessToken);
         // 새로운 리프레시 토큰이 서버에서 전송된다면 이를 쿠키에 저장
         if (response.data.refreshToken) {
-            Cookies.set('refresh_token', response.data.refreshToken, {
-                expires: 7, // 7일 후 만료
-                secure: true, // HTTPS에서만 사용
-                sameSite: 'strict', // CSRF 방지
-            });
+            setCookie('refresh_token', response.data.refreshToken, 7); // 7일 후 만료
         }
 
         return newAccessToken;
@@ -80,6 +95,6 @@ async function refreshAccessToken() {
 
 function logout() {
     removeItem('access_token');
-    Cookies.remove('refresh_token');
+    deleteCookie('refresh_token');
     window.location.href = '/landing';
 }
