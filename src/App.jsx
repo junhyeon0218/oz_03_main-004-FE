@@ -6,6 +6,7 @@ import Home from './pages/home';
 import Setting from './pages/setting';
 import Profile from './pages/profile';
 import OAuthCallback from './pages/oauthCallback';
+import React from 'react';
 
 const Layout = () => {
     return (
@@ -22,9 +23,7 @@ function App() {
             <Route path='/' element={<Layout />}>
                 <Route index element={<Navigate to='/landing' />} />
                 <Route path='landing' element={<Landing />} />
-                <Route path='/home' element={<Home />} />
-                <Route path='home/:id' element={<Home />} />
-                <Route path='setting/:id' element={<Setting />} />
+                <Route path='home' element={<Home />} />
                 <Route path='setting' element={<Setting />} />
             </Route>
             <Route path='/signin' element={<Signin />} />
