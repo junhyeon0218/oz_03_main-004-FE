@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { githubAPI } from '../../../apis/api/github';
+import Loading from '../../common/loading';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -8,21 +10,34 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 
-const DUMMY_DATA = [
-    { totalCommits: 205 },
-    { todaysCommits: 12 },
-    { lastCommitDay: '2024-07-19' },
-    { last7DaysCommits: 52 },
-    { avgCommitsDay: 8 },
-];
+const DUMMY_DATA = {
+    today_commit_count: 0,
+    week_commit_count: 0,
+    total_commit_count: 0,
+    week_average_commit_count: 0,
+};
 
 const Info = () => {
     const [info, setInfo] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const fetchData = async () => {
-        // const data = await DUMMY_DATA;
-        const data = DUMMY_DATA;
-        setInfo(data);
+        try {
+            setLoading(true);
+            const data = await githubAPI.getCommits();
+            const formattedData = {
+                'Today commits': data.today_commit_count,
+                'Week commits': data.week_commit_count,
+                'Total commits': data.total_commit_count,
+                'Week average commits': data.week_average_commit_count,
+            };
+            setInfo(formattedData);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching commits:', error);
+            setInfo(DUMMY_DATA);
+        } finally {
+        }
     };
 
     useEffect(() => {
@@ -38,24 +53,21 @@ const Info = () => {
             autoplay={{ delay: 2500, disableOnInteraction: false }}
             loop={true}
             pagination={{ dynamicBullets: true }}
-            className='h-full w-300 wide:w-200 tablet:w-full'
+            className='relative flex h-full w-300 items-center justify-center wide:w-200 tablet:w-full'
         >
-            {info.map((data, index) => (
-                <SwiperSlide key={index} className='bg-white'>
+            {Object.entries(info).map(([key, value]) => (
+                <SwiperSlide key={key} className='bg-white'>
                     <div className='h-[calc(100%-30px)] w-full'>
-                        {Object.entries(data).map(([key, value]) => (
-                            <div key={key} className='flex flex-col items-center justify-center h-full'>
-                                <p className='font-bold text-21 wide:text-16'>
-                                    {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
-                                </p>
-                                <div className='flex items-center justify-center grow'>
-                                    <p className='font-bold text-32 wide:text-24'>{value}</p>
-                                </div>
+                        <div className='flex h-full flex-col items-center justify-center'>
+                            <p className='text-21 font-bold wide:text-16'>{key}</p>
+                            <div className='flex grow items-center justify-center'>
+                                <p className='text-32 font-bold wide:text-24'>{value}</p>
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </SwiperSlide>
             ))}
+            {loading && <Loading />}
         </Swiper>
     );
 };
