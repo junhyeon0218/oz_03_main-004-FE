@@ -6,8 +6,8 @@ export const todoService = {
             const todos = await todoAPI.getTodosByDate(date);
             return todos.map((todo) => ({
                 id: todo.id,
-                text: todo.task,
-                completed: todo.is_Done,
+                task: todo.task,
+                is_Done: todo.is_Done,
                 date: todo.date,
             }));
         } catch (error) {
@@ -16,54 +16,68 @@ export const todoService = {
         }
     },
 
-    addTodo: async (text, date) => {
+    addTodo: async (task, date) => {
         try {
-            const newTodo = await todoAPI.createTodo(text, date);
-            return {
-                id: newTodo.id,
-                text: newTodo.task,
-                completed: newTodo.is_Done,
-                date: newTodo.date,
-            };
+            await todoAPI.createTodo(task, date);
+            const updatedTodos = await todoAPI.getTodosByDate(date);
+            return updatedTodos.map((todo) => ({
+                id: todo.id,
+                task: todo.task,
+                is_Done: todo.is_Done,
+                date: todo.date,
+            }));
         } catch (error) {
             console.error('Failed to add todo:', error);
             throw error;
         }
     },
 
-    updateTodo: async (id, text, date) => {
+    updateTodo: async (id, task, date) => {
         try {
-            const updatedTodo = await todoAPI.updateTodo(id, text, date);
-            return {
-                id: updatedTodo.id,
-                text: updatedTodo.task,
-                completed: updatedTodo.is_Done,
-                date: updatedTodo.date,
-            };
+            await todoAPI.updateTodo(id, task, date);
+            const updatedTodos = await todoAPI.getTodosByDate(date);
+            return updatedTodos.map((todo) => ({
+                id: todo.id,
+                task: todo.task,
+                is_Done: todo.is_Done,
+                date: todo.date,
+            }));
         } catch (error) {
             console.error('Failed to update todo:', error);
             throw error;
         }
     },
 
-    deleteTodo: async (id) => {
+    deleteTodo: async (id, date) => {
         try {
             await todoAPI.deleteTodo(id);
+            const updatedTodos = await todoAPI.getTodosByDate(date);
+            return updatedTodos.map((todo) => ({
+                id: todo.id,
+                task: todo.task,
+                is_Done: todo.is_Done,
+                date: todo.date,
+            }));
         } catch (error) {
             console.error('Failed to delete todo:', error);
             throw error;
         }
     },
 
-    toggleTodoComplete: async (id, isDone) => {
+    toggleTodoComplete: async (id, isDone, date) => {
         try {
-            const updatedTodo = isDone ? await todoAPI.markTodoUndone(id) : await todoAPI.markTodoDone(id);
-            return {
-                id: updatedTodo.id,
-                text: updatedTodo.task,
-                completed: updatedTodo.is_Done,
-                date: updatedTodo.date,
-            };
+            if (isDone) {
+                await todoAPI.markTodoUndone(id);
+            } else {
+                await todoAPI.markTodoDone(id);
+            }
+            const updatedTodos = await todoAPI.getTodosByDate(date);
+            return updatedTodos.map((todo) => ({
+                id: todo.id,
+                task: todo.task,
+                is_Done: todo.is_Done,
+                date: todo.date,
+            }));
         } catch (error) {
             console.error('Failed to toggle todo completion:', error);
             throw error;
