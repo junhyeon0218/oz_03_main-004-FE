@@ -29,79 +29,79 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
     const [showAcquiredNotification, setShowAcquiredNotification] = useState(false);
     const [levelupAlert, setLevelupAlert] = useState(false);
 
-    useEffect(() => {
-        // 로컬 저장소에서 최신 커밋 갯수를 불러옴
-        const latestCommitCount = localStorage.getItem('latestCommitCount');
-        setLatestCommitCount(Number(latestCommitCount) || 0);
+    // useEffect(() => {
+    //     // 로컬 저장소에서 최신 커밋 갯수를 불러옴
+    //     const latestCommitCount = localStorage.getItem('latestCommitCount');
+    //     setLatestCommitCount(Number(latestCommitCount) || 0);
 
-        // 로컬 저장소에서 이전 레벨을 불러옴
-        const previousLevel = localStorage.getItem('previousLevel');
-        setPreviousLevel(Number(previousLevel) || 0);
+    //     // 로컬 저장소에서 이전 레벨을 불러옴
+    //     const previousLevel = localStorage.getItem('previousLevel');
+    //     setPreviousLevel(Number(previousLevel) || 0);
 
-        // 로컬 저장소에서 이전 감자 상태를 불러옴
-        const storedPreviousPotatoState = JSON.parse(localStorage.getItem('previousPotatoState') || '[]');
-        setPreviousPotatoState(storedPreviousPotatoState);
+    //     // 로컬 저장소에서 이전 감자 상태를 불러옴
+    //     const storedPreviousPotatoState = JSON.parse(localStorage.getItem('previousPotatoState') || '[]');
+    //     setPreviousPotatoState(storedPreviousPotatoState);
 
-        // 서버에서 최신 커밋 갯수를 받아옴
-        axios
-            .get('/api/githubs/commits')
-            .then((response) => {
-                const fetchedCommitCount = response.data.total_commit_count;
+    //     // 서버에서 최신 커밋 갯수를 받아옴
+    //     axios
+    //         .get('/api/githubs/commits')
+    //         .then((response) => {
+    //             const fetchedCommitCount = response.data.total_commit_count;
 
-                const commitDifference = fetchedCommitCount - Number(latestCommitCount);
-                setCommitDifference(commitDifference);
+    //             const commitDifference = fetchedCommitCount - Number(latestCommitCount);
+    //             setCommitDifference(commitDifference);
 
-                localStorage.setItem('latestCommitCount', fetchedCommitCount);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+    //             localStorage.setItem('latestCommitCount', fetchedCommitCount);
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
 
-        // 서버에서 (최신) 현재 레벨을 불러옴
-        axios
-            .get('/api/levels/current')
-            .then((response) => {
-                const fetchedCurrentLevel = response.data.currentLevel;
-                setCurrentLevel(fetchedCurrentLevel);
+    //     // 서버에서 (최신) 현재 레벨을 불러옴
+    //     axios
+    //         .get('/api/levels/current')
+    //         .then((response) => {
+    //             const fetchedCurrentLevel = response.data.currentLevel;
+    //             setCurrentLevel(fetchedCurrentLevel);
 
-                // 현재 레벨을 로컬 저장소에 previousLevel로 저장
-                localStorage.setItem('previousLevel', fetchedCurrentLevel);
+    //             // 현재 레벨을 로컬 저장소에 previousLevel로 저장
+    //             localStorage.setItem('previousLevel', fetchedCurrentLevel);
 
-                if (previousLevel < currentLevel) {
-                    setLevelupAlert(true);
-                } else {
-                    setLevelupAlert(false);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+    //             if (previousLevel < currentLevel) {
+    //                 setLevelupAlert(true);
+    //             } else {
+    //                 setLevelupAlert(false);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
 
-        // 서버에서 감자 정보를 불러옴
-        axios
-            .get('/potatoes/collection')
-            .then((response) => {
-                const fetchedPotatoState = response.data;
-                setCurrentPotatoState(fetchedPotatoState);
+    //     // 서버에서 감자 정보를 불러옴
+    //     axios
+    //         .get('/potatoes/collection')
+    //         .then((response) => {
+    //             const fetchedPotatoState = response.data;
+    //             setCurrentPotatoState(fetchedPotatoState);
 
-                // 이전 상태와 현재 상태를 비교하여 is_acquired 변화 감지
-                const acquiredChanged = fetchedPotatoState.some((potato, index) => {
-                    const previousPotato = storedPreviousPotatoState.find((p) => p.id === potato.id);
-                    return previousPotato && !previousPotato.is_acquired && potato.is_acquired;
-                });
+    //             // 이전 상태와 현재 상태를 비교하여 is_acquired 변화 감지
+    //             const acquiredChanged = fetchedPotatoState.some((potato, index) => {
+    //                 const previousPotato = storedPreviousPotatoState.find((p) => p.id === potato.id);
+    //                 return previousPotato && !previousPotato.is_acquired && potato.is_acquired;
+    //             });
 
-                // 변화가 감지되면 알림을 설정
-                if (acquiredChanged) {
-                    setShowAcquiredNotification(true);
-                }
+    //             // 변화가 감지되면 알림을 설정
+    //             if (acquiredChanged) {
+    //                 setShowAcquiredNotification(true);
+    //             }
 
-                // 현재 상태를 로컬 저장소에 저장
-                localStorage.setItem('previousPotatoState', JSON.stringify(fetchedPotatoState));
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+    //             // 현재 상태를 로컬 저장소에 저장
+    //             localStorage.setItem('previousPotatoState', JSON.stringify(fetchedPotatoState));
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // }, []);
 
     if (!isOpen) return null;
 

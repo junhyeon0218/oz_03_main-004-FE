@@ -44,12 +44,12 @@ const Info = () => {
                 <SwiperSlide key={index} className='bg-white'>
                     <div className='h-[calc(100%-30px)] w-full'>
                         {Object.entries(data).map(([key, value]) => (
-                            <div className='flex h-full flex-col items-center justify-center'>
-                                <p key={key} className='text-21 font-bold wide:text-16'>
+                            <div key={key} className='flex flex-col items-center justify-center h-full'>
+                                <p className='font-bold text-21 wide:text-16'>
                                     {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
                                 </p>
-                                <div className='flex grow items-center justify-center'>
-                                    <p className='text-32 font-bold wide:text-24'>{value}</p>
+                                <div className='flex items-center justify-center grow'>
+                                    <p className='font-bold text-32 wide:text-24'>{value}</p>
                                 </div>
                             </div>
                         ))}
