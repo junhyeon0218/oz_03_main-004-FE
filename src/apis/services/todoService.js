@@ -7,7 +7,7 @@ export const todoService = {
             return todos.map((todo) => ({
                 id: todo.id,
                 task: todo.task,
-                is_Done: todo.is_Done,
+                is_done: todo.is_done,
                 date: todo.date,
             }));
         } catch (error) {
@@ -23,7 +23,7 @@ export const todoService = {
             return updatedTodos.map((todo) => ({
                 id: todo.id,
                 task: todo.task,
-                is_Done: todo.is_Done,
+                is_done: todo.is_done,
                 date: todo.date,
             }));
         } catch (error) {
@@ -39,7 +39,7 @@ export const todoService = {
             return updatedTodos.map((todo) => ({
                 id: todo.id,
                 task: todo.task,
-                is_Done: todo.is_Done,
+                is_done: todo.is_done,
                 date: todo.date,
             }));
         } catch (error) {
@@ -55,7 +55,7 @@ export const todoService = {
             return updatedTodos.map((todo) => ({
                 id: todo.id,
                 task: todo.task,
-                is_Done: todo.is_Done,
+                is_done: todo.is_done,
                 date: todo.date,
             }));
         } catch (error) {
@@ -75,7 +75,7 @@ export const todoService = {
             return updatedTodos.map((todo) => ({
                 id: todo.id,
                 task: todo.task,
-                is_Done: todo.is_Done,
+                is_done: todo.is_done,
                 date: todo.date,
             }));
         } catch (error) {

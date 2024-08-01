@@ -32,7 +32,6 @@ export const todoAPI = {
 
     getTodosByDate: async (date) => {
         const { data } = await authInstance.get(`/todos/${date}/`); //yyyy-mm-dd
-        console.log(data);
         return data;
     },
 

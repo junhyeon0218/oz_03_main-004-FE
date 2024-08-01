@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import FormInput from '../../components/common/input/index';
 import BaekjoonConnectModal from '../../components/modal/BaekjoonConnectModal';
+import useUser from '../../store/userStore';
+import { useNavigate } from 'react-router-dom';
 
 // Nickname 서버에서 가져오기
 //? 메모리에 1번만 로드되어서 성능 최적화에 괜찮다고 생각해서 Setting 컴포넌트 밖에 둠
@@ -29,6 +31,23 @@ const Setting = () => {
     const [isBaekjoonConnected, setIsBaekjoonConnected] = useState(false);
     const [isEditing, setIsEditing] = useState(false); // 닉네임 편집 상태
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const setUser = useUser((state) => state.setUser);
+    const navigate = useNavigate();
+
+    const fetchUserData = async () => {
+        try {
+            const userData = await authAPI.getProfile();
+            setUser(userData);
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+            navigate('/landing');
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, [setUser]);
 
     // Nickname에 error 또는 빈 input 인지 확인
     const validateForm = () => {
@@ -136,7 +155,7 @@ const Setting = () => {
     };
 
     return (
-        <div className='flex flex-col items-center w-full h-full m-ful'>
+        <div className='m-ful flex h-full w-full flex-col items-center'>
             <div className='relative h-250 w-[calc(100%-500px)] min-w-627 pt-50'>
                 <h1 className='h-auto min-w-0 border-b border-gray-300 text-32'>General</h1>
                 <div className='mt-15'>
@@ -157,8 +176,8 @@ const Setting = () => {
                                     className='w-520'
                                 />
                             ) : (
-                                <div className='inline-flex flex-col items-start justify-start w-auto h-auto gap-2 my-8'>
-                                    <label htmlFor={id} className='mb-3 text-black text-16'>
+                                <div className='my-8 inline-flex h-auto w-auto flex-col items-start justify-start gap-2'>
+                                    <label htmlFor={id} className='mb-3 text-16 text-black'>
                                         My Nickname
                                     </label>
                                     <span
@@ -184,10 +203,10 @@ const Setting = () => {
             </div>
             <div className='relative h-250 w-[calc(100%-500px)] min-w-627 pt-50'>
                 <h1 className='h-auto min-w-0 border-b border-gray-300 text-32'>Connect</h1>
-                <div className='flex flex-col mt-15 w-520'>
-                    <div className='flex items-center justify-between ml-3 h-55 w-300'>
+                <div className='mt-15 flex w-520 flex-col'>
+                    <div className='ml-3 flex h-55 w-300 items-center justify-between'>
                         <span className='flex items-center'>
-                            <img src='../../../public/potato.png' className='rounded-full h-42 w-42 bg-blue' />
+                            <img src='../../../public/potato.png' className='h-42 w-42 rounded-full bg-blue' />
                             <p className='ml-5 text-20'>Baekjoon</p>
                         </span>
                         <button
@@ -204,8 +223,8 @@ const Setting = () => {
             </div>
             <div className='relative h-250 w-[calc(100%-500px)] min-w-627 pt-50'>
                 <h1 className='h-auto min-w-0 border-b border-gray-300 text-32'>Danger</h1>
-                <div className='flex flex-col mt-15 w-520'>
-                    <div className='flex items-center h-55 w-866'>
+                <div className='mt-15 flex w-520 flex-col'>
+                    <div className='flex h-55 w-866 items-center'>
                         <span>
                             <p className='font-bold'>Delete your Account</p>
                             <p className='w-688 text-14'>

@@ -1,15 +1,10 @@
-import { parse, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 export const refineCompletedTodos = (data) => {
-    return Object.entries(data).reduce((acc, [date, count]) => {
-        const parsedDate = parse(date, 'yyyy-MM-dd', new Date());
-        const yearMonth = format(parsedDate, 'yyyy-MM');
-        const day = format(parsedDate, 'd');
-
-        if (!acc[yearMonth]) {
-            acc[yearMonth] = {};
-        }
-        acc[yearMonth][day] = count;
+    const completedTodos = data.completed_todos || data;
+    return Object.entries(completedTodos).reduce((acc, [date, count]) => {
+        const parsedDate = parseISO(date);
+        acc[date] = count;
         return acc;
     }, {});
 };

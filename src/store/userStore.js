@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { authAPI } from '../apis/api/auth';
 
 const useUser = create((set) => ({
     user: null,

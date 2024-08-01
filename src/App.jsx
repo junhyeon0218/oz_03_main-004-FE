@@ -4,7 +4,6 @@ import Landing from './pages/landing';
 import Signin from './pages/signin';
 import Home from './pages/home';
 import Setting from './pages/setting';
-import Profile from './pages/profile';
 import OAuthCallback from './pages/oauthCallback';
 import React from 'react';
 
@@ -27,7 +26,6 @@ function App() {
                 <Route path='setting' element={<Setting />} />
             </Route>
             <Route path='/signin' element={<Signin />} />
-            <Route path='/profile' element={<Profile />} />
             <Route path='/oauth-callback' element={<OAuthCallback />} />
         </Routes>
     );

@@ -4,6 +4,7 @@ import { subMonths, addMonths, format } from 'date-fns';
 import useDate from '../../../store/dateStore';
 import { todoAPI } from '../../../apis/api/todo';
 import { refineCompletedTodos } from '../../../apis/services/calendarService';
+import useCalendarStore from '../../../store/todosCompleteStore';
 
 // 요일 목록
 const DAY_LIST = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -13,27 +14,15 @@ const Calendar = () => {
     // useDate store에서 선택된 날짜 상태와 setter 함수 가져오기
     const { selectedDate, setSelectedDate } = useDate((state) => state);
     // 완료된 할 일 개수를 저장할 state
-    const [completedCounts, setCompletedCounts] = useState({});
-
-    const fetchData = async () => {
-        try {
-            const year = format(currentDate, 'yyyy');
-            const month = format(currentDate, 'MM');
-            console.log('Fetch data:', year, month);
-            const response = await todoAPI.getMonthlyCompletionRate(year, month);
-            console.log('Response:', response);
-            const data = response.completed_todos;
-            const refinedData = refineCompletedTodos(data);
-            setCompletedCounts(refinedData);
-            return refinedData;
-        } catch (error) {
-            console.error('Failed to fetch data:', error);
-        }
-    };
+    const { completedCounts, fetchCalendarData } = useCalendarStore();
 
     useEffect(() => {
-        fetchData();
+        const year = format(currentDate, 'yyyy');
+        const month = format(currentDate, 'MM');
+        fetchCalendarData(year, month);
     }, [currentDate]);
+
+    console.log(completedCounts);
 
     // 이전 달로 이동하는 함수
     const handlePrevMonth = () => {
@@ -108,7 +97,7 @@ const Calendar = () => {
                                 onClick={() => handleDateClick(day)}
                             >
                                 <p
-                                    className={` ${dayIndex === 0 ? 'text-red' : dayIndex === 6 ? 'text-blue' : ''} flex h-48 w-48 cursor-pointer items-center justify-center rounded-full ${getBackgroundColor(completedCounts[day] || 0)} ${completedCounts[day] > 0 ? 'text-white' : ''} `}
+                                    className={` ${dayIndex === 0 ? 'text-red' : dayIndex === 6 ? 'text-blue' : ''} flex h-48 w-48 cursor-pointer items-center justify-center rounded-full ${getBackgroundColor(completedCounts[format(new Date(currentDate.getFullYear(), currentDate.getMonth(), day), 'yyyy-MM-dd')] || 0)} ${completedCounts[format(new Date(currentDate.getFullYear(), currentDate.getMonth(), day), 'yyyy-MM-dd')] > 0 ? 'text-white' : ''} `}
                                 >
                                     {day !== 0 ? day : ''}
                                 </p>
