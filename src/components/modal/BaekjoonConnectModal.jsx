@@ -1,37 +1,29 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { authAPI } from '../../apis/api/auth';
 
-const BaekjoonConnectModal = ({ isOpen, onClose, onSuccess }) => {
-    const [baekjoonId, setBaekjoonId] = useState('');
+const BaekjoonConnectModal = ({ isOpen, onClose, onSuccess, baekjoonId }) => {
+    const [newBaekjoonId, setNewBaekjoonId] = useState('');
 
-    // 백준 ID 서버에 보내기
-    const handleConnect = async () => {
+    const handleConnectBaekjoon = async () => {
         try {
-            const response = await axios.post('/api/connect-baekjoon', { baekjoonId });
-            //응답상태코드(성공)인경우
-            if (response.status === 200) {
-                alert('Baekjoon ID connected successfully');
-                onClose();
-            } else {
-                alert('Failed to connect Baekjoon ID');
-            }
+            await authAPI.updateBaekjoonId(baekjoonId);
+            onSuccess(newBaekjoonId);
+            onClose();
         } catch (error) {
             console.error('Failed to connect Baekjoon ID', error);
-            alert('Failed to connect Baekjoon ID. Please try again.');
         }
     };
 
-    // 모달이 오픈되있지 않으면 렌더링 안함
     if (!isOpen) return null;
 
     return (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+        <div onClick={onClose} className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
             <div
-                className='relative flex flex-col justify-around p-10 overflow-hidden bg-white h-267 w-546 animate-slide-up rounded-4 shadow-custom-dark'
+                className='relative flex h-267 w-546 animate-slide-up flex-col justify-around overflow-hidden rounded-4 bg-white p-10 shadow-custom-dark'
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className='text-center'>
-                    <h1 className='mt-10 font-bold text-28 text-strong'>Connect with Baekjoon</h1>
+                    <h1 className='mt-10 text-28 font-bold text-strong'>Connect with Baekjoon</h1>
                 </div>
                 <div className='mt-4 text-center'>
                     <p className='mt-2 text-16 text-primary'>
@@ -42,22 +34,22 @@ const BaekjoonConnectModal = ({ isOpen, onClose, onSuccess }) => {
                 <div className='mt-6'>
                     <input
                         type='text'
-                        placeholder='Id / Email'
-                        value={baekjoonId}
-                        onChange={(e) => setBaekjoonId(e.target.value)}
+                        placeholder={(baekjoonId && `Connected Baekjoon ID: ${baekjoonId}`) || 'Id / Email'}
+                        value={newBaekjoonId}
+                        onChange={(e) => setNewBaekjoonId(e.target.value)}
                         className='inline-flex h-50 w-full items-center justify-start gap-2.5 rounded-4 border bg-white px-16 py-15 focus:border-strong'
                     />
                 </div>
-                <div className='flex justify-center mt-6 space-x-4'>
+                <div className='mt-6 flex justify-center space-x-4'>
                     <button
                         onClick={onClose}
-                        className='px-10 py-5 mr-5 text-black duration-200 bg-white h-33 w-80 rounded-4 text-14 shadow-custom-light hover:scale-105'
+                        className='mr-5 h-33 w-80 rounded-4 bg-white px-10 py-5 text-14 text-black shadow-custom-light duration-200 hover:scale-105'
                     >
                         CANCEL
                     </button>
                     <button
-                        onClick={handleConnect}
-                        className='px-10 py-5 ml-5 text-white duration-200 h-33 rounded-4 bg-primary text-14 hover:scale-105'
+                        onClick={handleConnectBaekjoon}
+                        className='ml-5 h-33 rounded-4 bg-primary px-10 py-5 text-14 text-white duration-200 hover:scale-105'
                     >
                         CONNECT
                     </button>

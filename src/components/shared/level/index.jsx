@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { userLevelService } from '../../../apis/services/levelService';
 import Loading from '../../common/loading';
 
 // CircularProgressBar 컴포넌트 정의
@@ -49,16 +49,16 @@ const CircularProgressBar = ({ level, currentXP, maxXP }) => {
                 width={radius * 2}
                 className='-rotate-90 transform' // 원을 회전하여 12시 방향이 시작점이 되게 함
             >
-                <circle //배경 원
-                    className='text-gray-bg drop-shadow' //배경 원 색상
-                    stroke='currentColor' //현재 색상 이용해서 원 테두리 그리기
-                    fill='transparent' //내부 투명하게
-                    strokeWidth={stroke} //원 테두리 두께
-                    r={normalizedRadius} //원 반지름 normalizedRadius = 두깨 제외
+                <circle // 배경 원
+                    className='text-gray-bg drop-shadow' // 배경 원 색상
+                    stroke='currentColor' // 현재 색상 이용해서 원 테두리 그리기
+                    fill='transparent' // 내부 투명하게
+                    strokeWidth={stroke} // 원 테두리 두께
+                    r={normalizedRadius} // 원 반지름 normalizedRadius = 두께 제외
                     cx={radius}
-                    cy={radius} //원 중심좌표
+                    cy={radius} // 원 중심좌표
                 />
-                <circle //프로그레스 바
+                <circle // 프로그레스 바
                     stroke='#91E491'
                     fill='transparent'
                     strokeWidth={stroke}
@@ -79,55 +79,51 @@ const CircularProgressBar = ({ level, currentXP, maxXP }) => {
     );
 };
 
-// App 컴포넌트 정의
 const Level = () => {
-    // 수치는 임시 설정, 추후 백엔드에서 정보 받아올 예정
-    const level = 10; // 현재 레벨 설정
-    const currentXP = 400; // 현재 경험치 설정
-    const maxXP = 500; // 최대 경험치 설정
+    const [loading, setLoading] = useState(false);
+    const [levelData, setLevelData] = useState({
+        level: 0,
+        currentXP: 0,
+        maxXP: 0,
+    });
+
+    useEffect(() => {
+        const fetchLevelData = async () => {
+            try {
+                setLoading(true);
+                const levelData = await userLevelService.getLevel();
+                const level = levelData.level;
+                const currentXP = levelData.exp;
+                const maxXP = levelData.nextLevelExp;
+
+                setLevelData({
+                    level: level,
+                    currentXP: currentXP,
+                    maxXP: maxXP,
+                });
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching level data:', error);
+            } finally {
+            }
+        };
+
+        fetchLevelData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className='flex h-full w-full items-center justify-center'>
+                <Loading />
+            </div>
+        );
+    }
 
     return (
-        <div className='Level h-auto justify-center'>
-            <CircularProgressBar level={level} currentXP={currentXP} maxXP={maxXP} />
+        <div className='Level'>
+            <CircularProgressBar level={levelData.level} currentXP={levelData.currentXP} maxXP={levelData.maxXP} />
         </div>
     );
 };
-
-// const Level = () => {
-//     const [levelData, setLevelData] = useState({
-//         level: 0,
-//         currentXP: 0,
-//         maxXP: 100, // 기본값 설정
-//     });
-
-//     useEffect(() => {
-//         // 데이터를 받아오는 함수 정의
-//         const fetchLevelData = async () => {
-//             try {
-//                 const response = await axios.get('/api/level'); // 실제 API 엔드포인트로 변경 필요
-//                 const data = response.data;
-//                 setLevelData({
-//                     level: data.level,
-//                     currentXP: data.currentXP,
-//                     maxXP: data.maxXP,
-//                 });
-//             } catch (error) {
-//                 console.error('데이터를 가져오는 동안 오류가 발생했습니다:', error);
-//             }
-//         };
-
-//         fetchLevelData();
-//     }, []); // 컴포넌트가 마운트될 때 한 번만 실행
-
-//     return (
-//         <div className='Level'>
-//             <CircularProgressBar
-//                 level={levelData.level}
-//                 currentXP={levelData.currentXP}
-//                 maxXP={levelData.maxXP}
-//             />
-//         </div>
-//     );
-// };
 
 export default Level;

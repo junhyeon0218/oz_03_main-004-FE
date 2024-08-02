@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { stackAPI } from '../../../apis/api/stack';
+import { stackService } from '../../../apis/services/stackService';
 
 const Stack = () => {
-    const { id } = useParams();
     const [isEdit, setIsEdit] = useState(false);
     const [stacks, setStacks] = useState([]);
     const [selectedStacks, setSelectedStacks] = useState([]);
     const [searchKey, setSearchKey] = useState('');
     const [filteredStacks, setFilteredStacks] = useState([]);
+    const previousColorRef = useRef(null);
 
     const colors = [
         'bg-[#AD5A10]',
-        'bg-[#F2C32D]',
         'bg-[#228B22]',
         'bg-[#CE9D00]',
         'bg-[#FFD700]',
@@ -23,59 +23,44 @@ const Stack = () => {
         'bg-[#F54025]',
         'bg-[#FE7E6B]',
     ];
+    const getRandomColor = () => {
+        let newColor = colors[Math.floor(Math.random() * colors.length)];
+        while (newColor === previousColorRef.current) {
+            newColor = colors[Math.floor(Math.random() * colors.length)];
+        }
+        previousColorRef.current = newColor;
+        return newColor;
+    };
 
     useEffect(() => {
         const fetchStacks = async () => {
             try {
-                // 임시 데이터
-                const data = [
-                    { id: 1, name: 'JavaScript', isSelected: true },
-                    { id: 2, name: 'TypeScript', isSelected: false },
-                    { id: 3, name: 'Python', isSelected: false },
-                    { id: 4, name: 'Java', isSelected: false },
-                    { id: 5, name: 'React', isSelected: true },
-                    { id: 6, name: 'HTML / CSS', isSelected: false },
-                    { id: 7, name: 'Node.js', isSelected: true },
-                    { id: 8, name: 'Express', isSelected: false },
-                    { id: 9, name: 'MongoDB', isSelected: true },
-                    { id: 10, name: 'PostgreSQL', isSelected: false },
-                    { id: 11, name: 'MySQL', isSelected: false },
-                    { id: 12, name: 'GraphQL', isSelected: true },
-                    { id: 13, name: 'Docker', isSelected: false },
-                    { id: 14, name: 'Kubernetes', isSelected: false },
-                    { id: 15, name: 'AWS', isSelected: true },
-                    { id: 16, name: 'GCP', isSelected: false },
-                    { id: 17, name: 'Azure', isSelected: false },
-                    { id: 18, name: 'Git', isSelected: true },
-                    { id: 19, name: 'GitHub', isSelected: false },
-                    { id: 20, name: 'GitLab', isSelected: false },
-                    { id: 21, name: 'Bitbucket', isSelected: true },
-                    { id: 22, name: 'CI/CD', isSelected: false },
-                    { id: 23, name: 'Jenkins', isSelected: false },
-                    { id: 24, name: 'Webpack', isSelected: true },
-                    { id: 25, name: 'Babel', isSelected: false },
-                    { id: 26, name: 'ESLint', isSelected: false },
-                    { id: 27, name: 'Prettier', isSelected: true },
-                    { id: 28, name: 'Redux', isSelected: false },
-                    { id: 29, name: 'MobX', isSelected: false },
-                    { id: 30, name: 'Next.js', isSelected: true },
-                ].map((stack) => ({
+                const allStacks = await stackService.getAllStacks();
+                const userStacks = await stackService.getUserStacks();
+
+                // 사용자 스택에 있는 항목들의 ID를 수집
+                const userStackIds = userStacks.map((stack) => stack.stackId);
+
+                // 전체 스택에서 사용자 스택에 있는 항목의 isSelected 상태를 true로 설정
+                const updatedStacks = allStacks.map((stack) => ({
                     ...stack,
-                    color: colors[Math.floor(Math.random() * colors.length)],
+                    isSelected: userStackIds.includes(stack.id),
+                    color: getRandomColor(),
                 }));
 
-                setStacks(data);
-                setSelectedStacks(data.filter((stack) => stack.isSelected));
+                setStacks(updatedStacks);
+                setSelectedStacks(updatedStacks.filter((stack) => stack.isSelected));
             } catch (error) {
                 console.error('Error fetching stacks:', error);
             }
         };
-
         fetchStacks();
-    }, [id]);
+    }, []);
 
     useEffect(() => {
-        setFilteredStacks(stacks.filter((stack) => stack.name.toLowerCase().includes(searchKey.toLowerCase())));
+        setFilteredStacks(
+            stacks.filter((stack) => stack.name && stack.name.toLowerCase().includes(searchKey.toLowerCase()))
+        );
     }, [searchKey, stacks]);
 
     const handleEdit = () => {
@@ -86,11 +71,45 @@ const Stack = () => {
         setIsEdit(!isEdit);
     };
 
-    const handleStackClick = (id) => {
+    const handleStackClick = async (id) => {
         if (isEdit) {
-            setStacks((prevStacks) =>
-                prevStacks.map((stack) => (stack.id === id ? { ...stack, isSelected: !stack.isSelected } : stack))
-            );
+            try {
+                const updatedStacks = stacks.map((stack) => {
+                    if (stack.id === id) {
+                        const isSelected = !stack.isSelected;
+                        return { ...stack, isSelected };
+                    }
+                    return stack;
+                });
+
+                setStacks(updatedStacks);
+
+                // 클릭된 스택 정보 가져오기
+                const clickedStack = updatedStacks.find((stack) => stack.id === id);
+
+                // 사용자 스택 정보 가져오기
+                const userStacks = await stackService.getUserStacks();
+
+                // 사용자가 선택한 스택의 stackId와 클릭된 스택의 id가 같은 경우
+                const matchingUserStack = userStacks.find((userStack) => userStack.stackId === clickedStack.id);
+
+                if (clickedStack.isSelected) {
+                    // 스택을 생성할 때 stackId를 사용
+                    await stackAPI.createUserStack(clickedStack.id);
+                } else {
+                    // matchingUserStack가 undefined인지 확인 후 처리
+                    if (matchingUserStack) {
+                        // 스택을 삭제할 때 id를 사용
+                        await stackAPI.deleteUserStack(matchingUserStack.id);
+                    } else {
+                        console.error(`No matching user stack found for stack id: ${clickedStack.id}`);
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating stack:', error);
+                // 에러 발생 시 상태를 원래대로 되돌립니다.
+                setStacks(stacks);
+            }
         }
     };
 
@@ -123,15 +142,15 @@ const Stack = () => {
     };
 
     return (
-        <div className='w-full h-full'>
+        <div className='h-full w-full'>
             {selectedStacks.length > 0 || isEdit ? (
                 <>
-                    <div className='flex justify-between h-30'>
-                        <h1 className='font-bold text-20 leading-30 1440:text-18'>Skills & Stacks</h1>
+                    <div className='flex h-30 justify-between'>
+                        <h1 className='text-20 font-bold leading-30 1440:text-18'>Skills & Stacks</h1>
                         <button
                             type='button'
                             onClick={handleEditWithReset}
-                            className='flex items-center justify-center py-6 bg-white h-30 w-81 rounded-16 px-14 shadow-custom-light'
+                            className='flex h-30 w-81 items-center justify-center rounded-16 bg-white px-14 py-6 shadow-custom-light'
                         >
                             <img src='/images/write.png' alt='' />
                             <span className='ml-6 h-18 whitespace-nowrap text-14 text-gray-98'>
@@ -140,21 +159,21 @@ const Stack = () => {
                         </button>
                     </div>
                     {isEdit && (
-                        <div className='flex items-center justify-between w-full h-32 px-12 mb-10 mt-15 animate-slide-down rounded-8 bg-gray-fa shadow-custom-light'>
+                        <div className='mb-10 mt-15 flex h-32 w-full animate-slide-down items-center justify-between rounded-8 bg-gray-fa px-12 shadow-custom-light'>
                             <input
                                 type='text'
                                 placeholder='Search and find Skill & Stack'
-                                className='flex-grow mr-4 text-black bg-gray-fa text-14 placeholder:text-gray-98'
+                                className='mr-4 flex-grow bg-gray-fa text-14 text-black placeholder:text-gray-98'
                                 value={searchKey}
                                 onChange={handleSearchChange}
                             />
-                            <img src='/images/search.png' className='cursor-pointer h-25 w-25' />
+                            <img src='/images/search.png' className='h-25 w-25 cursor-pointer' />
                         </div>
                     )}
                     <div
                         className={`scrollbar-hide ${!isEdit ? 'mt-20 max-h-[calc(100%-45px)]' : 'mt-15 max-h-[calc(100%-90px)]'} flex flex-wrap gap-4 overflow-y-auto`}
                     >
-                        {(isEdit ? filteredStacks : filteredStacks.filter((stack) => stack.isSelected)).map((stack) => (
+                        {(isEdit ? filteredStacks : selectedStacks).map((stack) => (
                             <StackTag
                                 key={stack.id}
                                 name={stack.name}
@@ -167,10 +186,10 @@ const Stack = () => {
                     </div>
                 </>
             ) : (
-                <div className='flex flex-col items-center justify-center w-full h-full text-center'>
-                    <h1 className='font-bold text-20 leading-30'>Choose your Skills & Stack</h1>
+                <div className='flex h-full w-full flex-col items-center justify-center text-center'>
+                    <h1 className='text-20 font-bold leading-30'>Choose your Skills & Stack</h1>
                     <button
-                        className='p-10 font-bold text-white duration-200 mt-7 h-44 rounded-4 bg-primary text-16 hover:scale-105'
+                        className='mt-7 h-44 rounded-4 bg-primary p-10 text-16 font-bold text-white duration-200 hover:scale-105'
                         onClick={handleChooseClick}
                     >
                         Choose
