@@ -1,143 +1,146 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
-import axios from 'axios';
+import { Pagination, Autoplay } from 'swiper/modules';
+import { githubService, potatoService } from '../../apis/services/userUpdateService';
+import Loading from '../common/loading';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
-import 'swiper/css/effect-fade';
-
-// 더미 (삭제예정))
-const potatoes = [
-    { id: 1, name: 'levelOnePotato' },
-    { id: 2, name: 'levelTwoPotato' },
-    { id: 3, name: 'levelThreePotato' },
-    { id: 4, name: 'levelFourPotato' },
-    { id: 5, name: 'winterPotato' },
-    { id: 6, name: 'shPotato' },
-];
 
 const UserUpdateModal = ({ isOpen, onClose }) => {
+    const [loading, setLoading] = useState(false);
     const [latestCommitCount, setLatestCommitCount] = useState(0);
     const [commitDifference, setCommitDifference] = useState(0);
-    const [previousLevel, setPreviousLevel] = useState(1);
+    const [previousLevel, setPreviousLevel] = useState(0);
     const [currentLevel, setCurrentLevel] = useState(0);
-    const [previousPotatoState, setPreviousPotatoState] = useState([]);
-    const [currentPotatoState, setCurrentPotatoState] = useState([]);
+    const [previousPotato, setPreviousPotato] = useState([]);
+    const [currentPotato, setCurrentPotato] = useState([]);
+    const [newPotato, setNewPotato] = useState([]);
     const [showAcquiredNotification, setShowAcquiredNotification] = useState(false);
     const [levelupAlert, setLevelupAlert] = useState(false);
 
-    // useEffect(() => {
-    //     // 로컬 저장소에서 최신 커밋 갯수를 불러옴
-    //     const latestCommitCount = localStorage.getItem('latestCommitCount');
-    //     setLatestCommitCount(Number(latestCommitCount) || 0);
+    useEffect(() => {
+        const storedCommitCount = Number(localStorage.getItem('latestCommitCount')) || 0;
+        const storedPreviousLevel = Number(localStorage.getItem('previousLevel')) || 1;
+        const storedPreviousPotato = JSON.parse(localStorage.getItem('previousPotato') || '[]');
 
-    //     // 로컬 저장소에서 이전 레벨을 불러옴
-    //     const previousLevel = localStorage.getItem('previousLevel');
-    //     setPreviousLevel(Number(previousLevel) || 0);
+        setLatestCommitCount(storedCommitCount);
+        setPreviousLevel(storedPreviousLevel);
+        setPreviousPotato(storedPreviousPotato);
 
-    //     // 로컬 저장소에서 이전 감자 상태를 불러옴
-    //     const storedPreviousPotatoState = JSON.parse(localStorage.getItem('previousPotatoState') || '[]');
-    //     setPreviousPotatoState(storedPreviousPotatoState);
+        const fetchData = async () => {
+            setLoading(true);
 
-    //     // 서버에서 최신 커밋 갯수를 받아옴
-    //     axios
-    //         .get('/api/githubs/commits')
-    //         .then((response) => {
-    //             const fetchedCommitCount = response.data.total_commit_count;
+            try {
+                await Promise.all([fetchGithubData(storedCommitCount), fetchPotatoData(storedPreviousPotato)]);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    //             const commitDifference = fetchedCommitCount - Number(latestCommitCount);
-    //             setCommitDifference(commitDifference);
+        fetchData();
+    }, []);
 
-    //             localStorage.setItem('latestCommitCount', fetchedCommitCount);
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
+    const fetchGithubData = async (storedCommitCount) => {
+        try {
+            const githubData = await githubService.getGithubState();
+            const getCommitCount = githubData.totalCommit || 0;
+            const getCurrentLevel = githubData.level || 1;
 
-    //     // 서버에서 (최신) 현재 레벨을 불러옴
-    //     axios
-    //         .get('/api/levels/current')
-    //         .then((response) => {
-    //             const fetchedCurrentLevel = response.data.currentLevel;
-    //             setCurrentLevel(fetchedCurrentLevel);
+            const commitDifference = getCommitCount - storedCommitCount;
+            setCommitDifference(commitDifference);
+            setCurrentLevel(getCurrentLevel);
 
-    //             // 현재 레벨을 로컬 저장소에 previousLevel로 저장
-    //             localStorage.setItem('previousLevel', fetchedCurrentLevel);
+            localStorage.setItem('latestCommitCount', getCommitCount);
+            localStorage.setItem('previousLevel', getCurrentLevel);
+        } catch (error) {
+            console.error('Error fetching GitHub data:', error);
+        }
+    };
 
-    //             if (previousLevel < currentLevel) {
-    //                 setLevelupAlert(true);
-    //             } else {
-    //                 setLevelupAlert(false);
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
+    const fetchPotatoData = async (storedPreviousPotato) => {
+        try {
+            const userPotatoDetails = await potatoService.getUserPotatoDetails();
+            const acquiredPotatoes = userPotatoDetails.filter((potato) => potato.isAcquired);
+            setCurrentPotato(acquiredPotatoes);
 
-    //     // 서버에서 감자 정보를 불러옴
-    //     axios
-    //         .get('/potatoes/collection')
-    //         .then((response) => {
-    //             const fetchedPotatoState = response.data;
-    //             setCurrentPotatoState(fetchedPotatoState);
+            // 중복된 감자 식별 및 필터링
+            const currentPotatoIds = new Set(acquiredPotatoes.map((potato) => potato.potatoId));
+            const previousPotatoIds = new Set(storedPreviousPotato.map((potato) => potato.potatoId));
+            const duplicatePotatoIds = new Set([...currentPotatoIds].filter((id) => previousPotatoIds.has(id)));
 
-    //             // 이전 상태와 현재 상태를 비교하여 is_acquired 변화 감지
-    //             const acquiredChanged = fetchedPotatoState.some((potato, index) => {
-    //                 const previousPotato = storedPreviousPotatoState.find((p) => p.id === potato.id);
-    //                 return previousPotato && !previousPotato.is_acquired && potato.is_acquired;
-    //             });
+            const filteredCurrentPotatoes = acquiredPotatoes.filter(
+                (potato) => !duplicatePotatoIds.has(potato.potatoId)
+            );
+            const filteredPreviousPotatoes = storedPreviousPotato.filter(
+                (potato) => !duplicatePotatoIds.has(potato.potatoId)
+            );
 
-    //             // 변화가 감지되면 알림을 설정
-    //             if (acquiredChanged) {
-    //                 setShowAcquiredNotification(true);
-    //             }
+            const getNewPotatoes = [...filteredCurrentPotatoes, ...filteredPreviousPotatoes];
+            setNewPotato(getNewPotatoes);
 
-    //             // 현재 상태를 로컬 저장소에 저장
-    //             localStorage.setItem('previousPotatoState', JSON.stringify(fetchedPotatoState));
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // }, []);
+            setShowAcquiredNotification(getNewPotatoes.length > 0);
 
-    if (!isOpen) return null;
+            localStorage.setItem('previousPotato', JSON.stringify(acquiredPotatoes));
+        } catch (error) {
+            console.error('Error fetching potato data:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (Number(previousLevel) < currentLevel) {
+            setLevelupAlert(true);
+        } else {
+            setLevelupAlert(false);
+        }
+    }, [currentLevel, previousLevel]);
+
+    if (loading) {
+        return (
+            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+                <Loading />
+            </div>
+        );
+    }
+
+    const shouldOpenModal = !(commitDifference === 0 && previousLevel === currentLevel && newPotato.length === 0);
+    if (!isOpen || !shouldOpenModal) return null;
 
     return (
         <div onClick={onClose} className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-            <div className='flex flex-col items-center h-626 w-620 animate-slide-up'>
+            <div className='flex h-626 w-620 animate-slide-up flex-col items-center'>
                 <div
                     className='animate-scaleUp mb-[-10px] h-118 w-full bg-opacity-70 bg-cover bg-top text-center'
                     style={{ backgroundImage: "url('/images/levelup.png')" }}
                 >
-                    <div className='my-10 font-bold tracking-wide text-outline text-64 text-basic'>
-                        {(levelupAlert && 'Welcome Back!') || 'Level UP!'}
+                    <div className='text-outline my-10 text-64 font-bold tracking-wide text-basic'>
+                        {(!levelupAlert && 'Welcome Back!') || 'Level UP!'}
                     </div>
                 </div>
-                <div className='flex flex-col items-center justify-around w-full bg-white h-540'>
-                    <h1 className='mt-10 font-bold text-24 text-strong'>
-                        {(levelupAlert && `We've Got Some Updates for You`) || 'Congratulations'}
+                <div className='flex h-540 w-full flex-col items-center justify-around bg-white'>
+                    <h1 className='mt-10 text-24 font-bold text-strong'>
+                        {(!levelupAlert && `We've Got Some Updates for You`) || 'Congratulations'}
                     </h1>
-                    {(levelupAlert && (
-                        <div className='h-39'>
-                            <span className='mr-5 font-bold text-20 text-strong'>{commitDifference}</span>
-                            <span className='text-16 text-primary'>commits added to your XP!</span>
-                        </div>
-                    )) || <div className='hidden'></div>}
-
-                    <div className='flex items-center justify-center mb-10 border bg-fa h-60 w-453 rounded-10 border-strong'>
-                        <span className='font-bold text-23 text-strong'>{previousLevel}레벨</span>
-                        <img src='/images/right-arrow.png' alt='' className='w-24 h-24 mx-23 text-strong' />
-                        <span className='font-bold text-23 text-strong'>{currentLevel}레벨</span>
+                    <div className='h-39'>
+                        <span className='mr-5 text-20 font-bold text-strong'>{commitDifference}</span>
+                        <span className='text-16 text-primary'>commits added to your XP!</span>
                     </div>
 
-                    <div className='overflow-hidden border h-268 w-573 rounded-10 border-strong scrollbar-hide'>
-                        <div className='flex justify-center bg-white rounded-10 py-13'>
+                    <div className='bg-fa mb-10 flex h-60 w-453 items-center justify-center rounded-10 border border-strong'>
+                        <span className='text-23 font-bold text-strong'>{previousLevel}레벨</span>
+                        <img src='/images/right-arrow.png' alt='' className='mx-23 h-24 w-24 text-strong' />
+                        <span className='text-23 font-bold text-strong'>{currentLevel}레벨</span>
+                    </div>
+
+                    <div className='h-268 w-573 overflow-hidden rounded-10 border border-strong scrollbar-hide'>
+                        <div className='flex justify-center rounded-10 bg-white py-13'>
                             <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
                             <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
-                            <span className='mx-20 font-bold text-23 text-strong'>New Potato</span>
+                            <span className='mx-20 text-23 font-bold text-strong'>New Potato</span>
                             <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
                             <img src='/images/star-icon.png' alt='' className='mx-3 h-31 w-31 animate-twinkle' />
                         </div>
@@ -151,22 +154,22 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
                                 loop={true}
                                 className='w-full bg-white'
                             >
-                                {potatoes.map((potato, index) => (
+                                {newPotato.map((potato, index) => (
                                     <SwiperSlide key={index} className='flex items-center justify-center'>
-                                        <div className='flex flex-col items-center justify-center flex-shrink-0 border h-190 w-170 rounded-4 shadow-custom-light'>
+                                        <div className='flex h-190 w-170 flex-shrink-0 flex-col items-center justify-center rounded-4 border shadow-custom-light'>
                                             <img
-                                                src={`/images/${potato.name}.png`}
+                                                src={`/src/assets/images/${potato.potatoName}.png`}
                                                 alt=''
-                                                className='object-cover h-118 w-85'
+                                                className='h-118 w-85 object-cover'
                                             />
-                                            <p className='my-5 text-primary'>{potato.name}</p>
+                                            <p className='my-5 text-primary'>{potato.potatoName}</p>
                                         </div>
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
                         )) || (
-                            <div className='flex justify-center w-full bg-white justify-items-center'>
-                                <p className='text-center mt-70 text-14 text-gray-98'>
+                            <div className='flex w-full justify-center justify-items-center bg-white'>
+                                <p className='mt-70 text-center text-14 text-gray-98'>
                                     No new potatoes at the moment..!
                                 </p>
                             </div>
@@ -175,7 +178,7 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
 
                     <button
                         onClick={onClose}
-                        className='px-10 py-5 mb-10 text-white duration-200 h-33 w-70 rounded-4 bg-primary text-14 hover:scale-105'
+                        className='mb-10 h-33 w-70 rounded-4 bg-primary px-10 py-5 text-14 text-white duration-200 hover:scale-105'
                     >
                         OK
                     </button>
