@@ -32,11 +32,9 @@ function Collection({ onSelectImage }) {
     }, [fetchUserPotatoes]);
 
     const handleImageClick = async (imagePath, potatoType, isAcquired) => {
-        console.log('handleImageClick - potatoId:', potatoType); // 추가된 디버깅 로그
         setLoading(true);
         try {
             if (isAcquired) {
-                console.log('potatotype : ', typeof potatoType);
                 await setIsPotatoType(potatoType);
             }
             setSelectedImage(imagePath);
