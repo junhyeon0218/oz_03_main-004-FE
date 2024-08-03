@@ -63,7 +63,7 @@ const Potato = () => {
                     <img
                         src={`/src/assets/images/${selectedPotato.name}.png`}
                         alt='Selected Potato'
-                        className='h-118 w-85'
+                        className='h-118 w-85 hwide:h-120 hwide:w-150'
                     />
                 </div>
             ) : (
