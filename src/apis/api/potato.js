@@ -11,8 +11,8 @@ export const potatoAPI = {
         return data;
     },
 
-    updateUserPotato: async (potatoId) => {
-        const { data } = await authInstance.patch('/potatoes/patch', { id: potatoId });
+    updateUserPotato: async (potatoType) => {
+        const { data } = await authInstance.patch('/potatoes/select/', { id: potatoType });
         return data;
     },
 };

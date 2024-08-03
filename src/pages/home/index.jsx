@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -14,6 +14,7 @@ import { ChangePotatoModal, PotatoInfoModal, UserUpdateModal } from '../../compo
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '../../apis/api/auth';
 import useUser from '../../store/userStore';
+import usePotatoStore from '../../store/usePotatoStore';
 
 const Home = () => {
     const [isChangePotatoModalOpen, setIsChangePotatoModalOpen] = useState(false);
@@ -24,6 +25,7 @@ const Home = () => {
     const [isOverlayed, setIsOverlayed] = useState(false);
 
     const setUser = useUser((state) => state.setUser);
+    const { fetchUserPotatoes } = usePotatoStore();
     const navigate = useNavigate();
 
     const fetchUserData = async () => {
@@ -42,7 +44,8 @@ const Home = () => {
 
     useEffect(() => {
         setIsUserUpdateModal(true);
-    }, []);
+        fetchUserPotatoes();
+    }, [fetchUserPotatoes]);
 
     const handleSelectImage = (image, isOverlayed) => {
         setSelectedImage(image);
@@ -51,7 +54,12 @@ const Home = () => {
     };
 
     const handleConfirmChange = async (image) => {
-        setConfirmedImage(image);
+        try {
+            setConfirmedImage(image);
+            setIsChangePotatoModalOpen(false);
+        } catch (error) {
+            console.error('Error saving image:', error);
+        }
     };
 
     const handlePotatoInfoModalOkClick = () => {
