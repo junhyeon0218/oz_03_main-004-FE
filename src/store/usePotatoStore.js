@@ -27,9 +27,7 @@ const usePotatoStore = create((set, get) => ({
             });
 
             const response = await collectionService.updateSelectedPotato(potatoType);
-            console.log('Update response:', response);
             set({ userPotatoes: updatedPotatoes });
-            console.log('Setting userPotatoes:', updatedPotatoes);
         } catch (error) {
             console.error('Error updating selected potato:', error);
         }

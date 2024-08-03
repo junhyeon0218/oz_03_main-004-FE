@@ -47,10 +47,8 @@ export const collectionService = {
     },
 
     updateSelectedPotato: async (potatoType) => {
-        console.log('updateSelectedPotato - potatoType:', potatoType);
         try {
             const response = await potatoAPI.updateUserPotato(potatoType);
-            console.log('updateSelectedPotato response:', response);
             return response;
         } catch (error) {
             console.error('Error updating selected potato:', error);
