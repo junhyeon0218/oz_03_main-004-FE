@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import usePotatoStore from '/src/store/usePotatoStore';
 import potatoTypeStore from '../../../store/potatoTypeStore';
-import description from '/src/assets/description.json';
+import descriptionData from '../../../assets/description.json';
 import { collectionService } from '../../../apis/services/collectionService';
 
 function Collection({ onSelectImage }) {
@@ -46,12 +46,12 @@ function Collection({ onSelectImage }) {
         }
     };
 
-    const images = import.meta.glob('/src/assets/images/*Potato.{png,jpg,jpeg,png}');
+    const images = import.meta.glob('/src/assets/*Potato.{png,jpg,jpeg,png}');
     const imageFiles = Object.keys(images)
-        .map((key) => key.replace('/src/assets/images/', '').replace('.png', ''))
+        .map((key) => key.replace('/src/assets/', '').replace('.png', ''))
         .filter((fileName) => fileName !== 'Group');
 
-    const orderedImages = description
+    const orderedImages = descriptionData
         .sort((a, b) => parseInt(a.id) - parseInt(b.id))
         .map((item) => item.name)
         .filter((name) => imageFiles.includes(name));
@@ -68,7 +68,7 @@ function Collection({ onSelectImage }) {
                 <img src={image.imagePath} alt={`Potato ${image.id + 1}`} className='h-118 w-85' />
                 {!image.isAcquired && (
                     <div className='absolute left-0 top-0 flex h-full w-full items-center justify-center bg-[#d9d9d9] bg-opacity-50 backdrop-blur-sm'>
-                        <img src='/src/assets/images/Group.png' alt='Overlay' className='h-auto w-135' />
+                        <img src='/images/Group.png' alt='Overlay' className='h-auto w-135' />
                     </div>
                 )}
                 <p className='mt-2'>{image.title}</p>
@@ -90,9 +90,9 @@ function Collection({ onSelectImage }) {
             </div>
             <button onClick={toggleSize} className='absolute right-2 top-2 rounded-4 bg-transparent p-2'>
                 {isExpanded ? (
-                    <img src='/src/assets/images/uparrow.png' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
+                    <img src='/images/uparrow.png' alt='Collapse' className='mr-33 mt-27 h-19 w-19' />
                 ) : (
-                    <img src='/src/assets/images/downarrow.png' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
+                    <img src='/images/downarrow.png' alt='Expand' className='mr-33 mt-27 h-19 w-19' />
                 )}
             </button>
             <div className='overflow-y-scroll scrollbar-hide'>
@@ -101,14 +101,8 @@ function Collection({ onSelectImage }) {
                         <div className='col-span-7 flex h-full items-center justify-center'>
                             <p className='mt-70 text-center text-14 text-gray-98'>Loading...</p>
                         </div>
-                    ) : potatoImages.length > 0 ? (
-                        renderPotatoImages(potatoImages)
                     ) : (
-                        <div className='col-span-7 flex h-full items-center justify-center'>
-                            <p className='mt-70 text-center text-14 text-gray-98'>
-                                There are no potatoes to choose from!
-                            </p>
-                        </div>
+                        renderPotatoImages(potatoImages)
                     )}
                 </div>
             </div>

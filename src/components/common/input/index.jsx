@@ -150,18 +150,6 @@ const FormInput = ({
                     }}
                     value={value}
                 />
-                {type === 'password' && (
-                    <button
-                        type='button'
-                        className='absolute right-4 mr-16 h-24 w-24 transform justify-center pt-14'
-                        onClick={togglePasswordVisibility}
-                    >
-                        <img
-                            src={inputType === 'password' ? disableEyes : enableEyes}
-                            className='h-24 w-24 text-blue'
-                        />
-                    </button>
-                )}
             </div>
             {error && <p className='mb-5 text-14 text-red'>{error}</p>}
         </div>

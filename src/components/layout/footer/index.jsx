@@ -6,13 +6,14 @@ const Footer = () => {
             <div className='mx-auto flex h-full w-[calc(100%-500px)] flex-col justify-between wide:w-1400'>
                 <div className='flex'>
                     <div className='w-300'>
-                        <p className='text-16 font-bold'>소셜</p>
+                        <p className='text-16 font-bold'>GitHub</p>
                         <ul className='m-0 p-0'>
-                            <li className='my-2 text-14 text-gray-98'>인스타</li>
-                            <li className='my-2 text-14 text-gray-98'>인스타</li>
-                            <li className='my-2 text-14 text-gray-98'>인스타</li>
-                            <li className='my-2 text-14 text-gray-98'>인스타</li>
-                            <li className='mt-2 text-14 text-gray-98'>인스타</li>
+                            <li className='my-2 text-14 text-gray-98'>dayeonkimm</li>
+                            <li className='my-2 text-14 text-gray-98'>youngkwangjoo</li>
+                            <li className='my-2 text-14 text-gray-98'>NohSungwoo</li>
+                            <li className='mt-2 text-14 text-gray-98'>junhyeon0218</li>
+                            <li className='my-2 text-14 text-gray-98'>Watnu03</li>
+                            <li className='mt-2 text-14 text-gray-98'>akwjr963</li>
                         </ul>
                     </div>
                     <div className='w-300'>
@@ -26,7 +27,7 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <p className='text-14 text-gray-98'>CopyrightⓒProject</p>
+                <p className='text-14 text-gray-98'>CopyrightⓒGitPotatoes</p>
             </div>
         </div>
     );

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // navigate를 사용하기 위해 import
-import axios from 'axios';
-import Cookies from 'js-cookie'; // 쿠키 관리를 위해 js-cookie 라이브러리 사용
 
 const Signin = () => {
     const [email, setEmail] = useState('');
@@ -16,12 +14,12 @@ const Signin = () => {
     };
 
     return (
-        <div className='relative flex flex-col items-center justify-center min-h-screen m-auto overflow-hidden'>
+        <div className='relative m-auto flex min-h-screen flex-col items-center justify-center overflow-hidden'>
             <div className='flex flex-col items-center justify-center'>
-                <div className='flex items-center justify-center h-48'>
-                    <img src='/images/potato.png' className='w-32 h-42' />
+                <div className='flex h-48 items-center justify-center'>
+                    <img src='/images/potato.png' className='h-42 w-32' />
                     <h1
-                        className='h-auto ml-6 font-bold cursor-pointer text-48 text-strong'
+                        className='ml-6 h-auto cursor-pointer text-48 font-bold text-strong'
                         onClick={() => {
                             navigate('/');
                         }}
@@ -29,10 +27,10 @@ const Signin = () => {
                         GitPotato
                     </h1>
                 </div>
-                <p className='h-24 font-normal my-36 text-20'>"Continew and Grow Your Potato!"</p>
+                <p className='my-36 h-24 text-20 font-normal'>"Continew and Grow Your Potato!"</p>
                 <button
                     onClick={handleGitHubLogin}
-                    className='flex items-center justify-between text-white h-44 w-200 rounded-4 bg-primary px-15'
+                    className='flex h-44 w-200 items-center justify-between rounded-4 bg-primary px-15 text-white'
                 >
                     Start with GitHub <img src='/images/iconGithub.png' alt='' />
                 </button>

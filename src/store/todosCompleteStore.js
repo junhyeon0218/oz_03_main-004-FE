@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { todoAPI } from '../apis/api/todo';
 import { refineCompletedTodos } from '../apis/services/calendarService';
 

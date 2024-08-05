@@ -131,9 +131,9 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className='bg-fa mb-10 flex h-60 w-453 items-center justify-center rounded-10 border border-strong'>
-                        <span className='text-23 font-bold text-strong'>{previousLevel}레벨</span>
+                        <span className='text-23 font-bold text-strong'>Lv.{previousLevel}</span>
                         <img src='/images/right-arrow.png' alt='' className='mx-23 h-24 w-24 text-strong' />
-                        <span className='text-23 font-bold text-strong'>{currentLevel}레벨</span>
+                        <span className='text-23 font-bold text-strong'>Lv.{currentLevel}</span>
                     </div>
 
                     <div className='h-268 w-573 overflow-hidden rounded-10 border border-strong scrollbar-hide'>
@@ -158,7 +158,7 @@ const UserUpdateModal = ({ isOpen, onClose }) => {
                                     <SwiperSlide key={index} className='flex items-center justify-center'>
                                         <div className='flex h-190 w-170 flex-shrink-0 flex-col items-center justify-center rounded-4 border shadow-custom-light'>
                                             <img
-                                                src={`/src/assets/images/${potato.potatoName}.png`}
+                                                src={`/images/${potato.potatoName}.png`}
                                                 alt=''
                                                 className='h-118 w-85 object-cover'
                                             />
